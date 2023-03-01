@@ -5,6 +5,8 @@ import axios from "axios";
 import LoginPage from "./components/LoginPage";
 import Home from "./components/Home";
 import DefaultRoute from "./components/DefaultRoute";
+import Admin from './components/Admin'
+import AlterBoard from "./components/AlterBoard";
 
 function App() {
   const [usersignupusername, setusersignupusername] = useState();
@@ -95,6 +97,7 @@ function App() {
           }
         ></Route>
         <Route path="/Home" element={<Home />}></Route>
+        <Route path="/Admin" element={<Admin />}></Route>
         {/* { currentUser && <Route path="/Home" element={<Home />}></Route>} */}
         <Route path="*" element={<DefaultRoute />} />
       </Routes>
