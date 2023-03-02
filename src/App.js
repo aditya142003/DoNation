@@ -6,6 +6,8 @@ import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import NgoAdmin from "./components/NgoAdmin";
 import DefaultRoute from "./components/DefaultRoute";
+import Admin from './components/Admin'
+import AlterBoard from "./components/AlterBoard";
 
 function App() {
   const [usersignupusername, setusersignupusername] = useState();
@@ -55,6 +57,7 @@ function App() {
           }
         ></Route>
         <Route path="/Home" element={<Home />}></Route>
+        <Route path="/Admin" element={<Admin />}></Route>
         <Route path="/NgoAdmin" element={<NgoAdmin />}></Route>
         <Route path="/CreatePost" element={<CreatePost />}></Route>
         <Route path="*" element={<DefaultRoute />} />
