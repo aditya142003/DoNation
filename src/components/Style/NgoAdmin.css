@@ -1,0 +1,19 @@
+.titlecontainer {
+  display: flex;
+  justify-content: space-between;
+}
+.pageHeading {
+  background-color: #f3c222;
+  width: 200px;
+  color: white;
+  font-size: 23px;
+}
+.donationContainer {
+  height: 85vh;
+  width: 85%;
+  box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
+  transform: translateY(-0.25em);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+}

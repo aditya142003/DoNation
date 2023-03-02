@@ -1,9 +1,10 @@
 import "./App.css";
 import React, { useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import axios from "axios";
 import LoginPage from "./components/LoginPage";
 import Home from "./components/Home";
+import CreatePost from "./components/CreatePost";
+import NgoAdmin from "./components/NgoAdmin";
 import DefaultRoute from "./components/DefaultRoute";
 
 function App() {
@@ -21,53 +22,12 @@ function App() {
   const [currentUser, setcurrentUser] = useState("");
   const navigate = useNavigate();
 
-  function submitusersignup() {
-    axios({
-      method: "post",
-      url: "http://127.0.0.1:5000/users/signUpuser",
-      data: {
-        usersignupusername: usersignupusername,
-        usersignupemail: usersignupemail,
-        usersignuppassword: usersignuppassword,
-      },
-    }).then(function (response) {
-      console.log(response);
-    });
-  }
-  function submitNGOsignup() {
-    axios({
-      method: "post",
-      url: "http://127.0.0.1:5000/users/signUpNGO",
-      data: {
-        NGOsignupname: NGOsignupname,
-        NGOsignupdescription: NGOsignupdescription,
-        NGOsignuplan: NGOsignuplan,
-        NGOsignuplong: NGOsignuplong,
-        NGOsignupemail: NGOsignupemail,
-        NGOsignuppassword: NGOsignuppassword,
-      },
-    }).then(function (response) {
-      console.log(response);
-    });
-  }
+  function submitusersignup() {}
+  function submitNGOsignup() {}
 
   function submitlogin() {
-    navigate("/Home");
-    axios({
-      method: "post",
-      url: "http://127.0.0.1:5000/users/logIn",
-      data: {
-        loginemail: loginemail,
-        loginpassword: loginpassword,
-      },
-    }).then((res) => {
-      console.log(res.data.currentUser);
-      setcurrentUser(res.data.currentUser);
-
-      // {
-      //   res.data.currentUser && navigate("/Home");
-      // }
-    });
+    // navigate("/Home");
+    navigate("/NgoAdmin");
   }
 
   return (
@@ -95,7 +55,8 @@ function App() {
           }
         ></Route>
         <Route path="/Home" element={<Home />}></Route>
-        {/* { currentUser && <Route path="/Home" element={<Home />}></Route>} */}
+        <Route path="/NgoAdmin" element={<NgoAdmin />}></Route>
+        <Route path="/CreatePost" element={<CreatePost />}></Route>
         <Route path="*" element={<DefaultRoute />} />
       </Routes>
     </div>

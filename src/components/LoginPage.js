@@ -4,9 +4,12 @@ import "./Style/LoginPage.css";
 function LoginPage(props) {
   function submitlogin() {
     props.submitlogin();
+    
   }
+
   function submitusersignup() {
     props.submitusersignup();
+    
   }
   function submitNGOsignup() {
     props.submitNGOsignup();
@@ -148,7 +151,6 @@ function LoginPage(props) {
               <div>NGO Name</div>
               <input
                 type="text"
-                id="loginusername"
                 onchange={(e) => props.setNGOsignupname(e.target.value)}
               ></input>
             </div>
