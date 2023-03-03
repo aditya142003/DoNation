@@ -1,6 +1,27 @@
-.postTemplateContainer{
-    margin: 10px;
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
+.postTemplateContainer {
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  width: 88vw;
+}
+
+.postTemplate {
+  width: 70%;
+}
+.viewButton {
+  background-color: #f3c222;
+  border: transparent;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.textoverflow {
+  overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
 }

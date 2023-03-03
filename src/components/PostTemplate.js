@@ -9,16 +9,33 @@ function PostOverviewTemplate(props) {
     navigate(`/Post?${campaignid}`);
   }
 
+  let percent = props.amountRec / props.totalAmount * 100
+
   return (
     <div className="postTemplateContainer">
       <div className="postTemplate">
         <b>{props.title}</b>
-        <div>{props.description}</div>
-        <div> {props.totalAmount}</div>
+        <p className="textoverflow">{props.description}</p>
+        <div>
+        {props.amountRec} / {props.totalAmount}
+        </div>
+
+        <div class="progress">
+          <div
+            className="progress-bar"
+            role="progressbar"
+            style={{width:`${percent}%`}}
+            aria-valuenow={`${percent}`}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
       </div>
       <div>
         <div>
-          <a onClick={handleView}>Tap to view</a>
+          <button type="button" className="viewButton" onClick={handleView}>
+            Tap to view
+          </button>
         </div>
       </div>
     </div>

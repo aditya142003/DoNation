@@ -70,26 +70,27 @@ function NgoAdmin() {
     <div>
       <div className="titlecontainer">
         <div className="pageHeading">Alert Board</div>
-        <div>
-          <div>{ngoname}</div>
-          <div>{ngoemail}</div>
+        <div className="pagengo">
+          <div >{ngoname}</div>
+          <div >{ngoemail}</div>
         </div>
       </div>
       <div className="donationContainer">
         <div className="donationContainerTitle">
           <div>All Donations</div>
-          <button type="button" className="btn btn-warning" onClick={createhandle}>
+          <button type="button" className="createButton" onClick={createhandle}>
             Create+
           </button>
         </div>
         {listings.map((element) => {
           return (
-            <div className="col-md-4 " key={element.campaignId}>
+            <div key={element.campaignId}>
               <PostTemplate
                 campaignId={element.campaignId}
                 title={element.title}
                 description={element.description}
                 totalAmount={element.totalAmount}
+                amountRec={element.amountRec}
               />
             </div>
           );

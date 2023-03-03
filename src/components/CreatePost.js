@@ -52,7 +52,6 @@ function CreatePost() {
       duration: TimeDuration,
     };
 
- 
     const reference = ref(db, "campaign/" + `${id}`);
     set(reference, campaignSchema).then(async (res) => {
       const temp = {
@@ -75,6 +74,7 @@ function CreatePost() {
         console.log("No such document!");
       }
     });
+    navigate(-2);
   }
 
   const [ngoemail, setngoemail] = useState();
@@ -92,9 +92,9 @@ function CreatePost() {
 
   return (
     <div>
-      <div className="createPosttitlecontainer">
-        <div className="createPostpageHeading">Alert Board</div>
-        <div>
+      <div className="titlecontainer">
+        <div className="pageHeading">Create Campaign</div>
+        <div className="pagengo">
           <div>{ngoname}</div>
           <div>{ngoemail}</div>
         </div>
@@ -106,10 +106,12 @@ function CreatePost() {
         >
           X
         </div>
-        <div className="createPostMainContainer">
+        <div
+          className="createPostMainContainer"
+          style={{ left: "119px", top: "26px" }}
+        >
           <div className="createPostformContainer">
             <form action="#">
-              <div className="createPostformHeading">Create Post</div>
               <div style={{ display: "flex" }}>
                 <div>
                   <div className="createPostformFields">

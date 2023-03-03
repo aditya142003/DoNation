@@ -3,10 +3,14 @@
   justify-content: space-between;
 }
 .pageHeading {
+  display: flex;
   background-color: #f3c222;
   width: 200px;
   color: white;
   font-size: 23px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 }
 .donationContainer {
   height: 85vh;
@@ -16,18 +20,31 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 30px;
+  overflow-y: scroll;
+  border-radius: 10px;
 }
 .donationContainerTitle {
   display: flex;
   justify-content: space-between;
-  padding: 15px;
-  font-size: 20px;
+  padding: 19px;
+  font-size: 28px;
 }
 .createButton{
-    background-color: #f3c222;
-    border: transparent;
-    width: 100px;
-    height: 30px;
-    border-radius: 10px;
-    cursor: pointer;
+  background-color: #f3c222;
+  border: transparent;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+.pagengo{
+  display: grid;
+  background-color: #f3c222;
+  width: 300px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 }
