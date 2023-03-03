@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, updateDoc, getDoc, doc } from "firebase/firestore";
-import RecentActivity from "./RecentActivity.js";
 import "./Style/NgoAdmin.css";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  orderByValue,
+  orderByChild,
+  orderByKey,
+  orderByPriority,
+  child,
+  remove,
+} from "firebase/database";
 
 function NgoAdmin() {
+  const db = getDatabase();
   useEffect(() => {
     getNgoData();
+    getListing();
   }, []);
 
   const navigate = useNavigate();
@@ -15,6 +28,7 @@ function NgoAdmin() {
   const [ngoemail, setngoemail] = useState();
   const [ngoname, setngoname] = useState();
   const [ngoCampaigns, setngoCampaigns] = useState(0);
+  const [listings, setlistings] = useState([]);
 
   const firestore = getFirestore();
   const ngoRef = doc(firestore, "ngo", ngoUID);
@@ -45,10 +59,35 @@ function NgoAdmin() {
     navigate("/");
   }
 
+  const getListing = async () => {
+    let temp = [];
+    const reference = ref(db, "campaign/");
+    onValue(reference, (snapshot) => {
+      if (snapshot.val()) {
+        const values = Object.values(snapshot.val());
+        values.forEach((camp, index) => {
+          if (camp.ngoUID == ngoUID) {
+            if (camp.volunteers) {
+              // if (camp.volunteers.deliverd) {
+              camp.volunteers.forEach((vol) => {
+                temp.push(vol);
+              });
+              // }
+            }
+          }
+        });
+      }
+      setlistings(temp);
+    });
+  };
+  console.log(listings);
+  function handleClick() {
+    navigate("/AlertBoard");
+  }
   return (
     <div>
       <div className="titlecontainer">
-        <div className="pageHeading">Alert Board</div>
+        <div className="pageHeading">NGO Admin</div>
         <div>
           <button onClick={logout}>Logout</button>
         </div>
@@ -63,11 +102,10 @@ function NgoAdmin() {
           <div>{ngoCampaigns.length}</div>
         </div>
         <div className="AdminBoxes">
-          <div>Pending Acceptation</div>
-          <a onClick={acceptHandle}>Tap to view</a>
+          <a>Tap to view</a>
         </div>
         <div className="AdminBoxes">
-          <div>Alert Board</div>
+          <div>NGO Admin</div>
           <a onClick={Taphandle}>Tap to view</a>
         </div>
       </div>
@@ -77,13 +115,18 @@ function NgoAdmin() {
             <div>Recent Activity</div>
           </div>
           <div className="col-md-4 ">
-            <RecentActivity />
-          </div>
-          <div className="col-md-4 ">
-            <RecentActivity />
-          </div>
-          <div className="col-md-4 ">
-            <RecentActivity />
+            {listings?.map((element) => {
+              return (
+                <div key={element.uid}>
+                  <div>{element.name}</div>
+                  <div>{element.email}</div>
+                  <div>{element.amount}</div>
+                  {!element.delivered && (
+                    <button onClick={handleClick}>Verify</button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="optionsContainer">

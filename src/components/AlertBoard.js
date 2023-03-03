@@ -78,7 +78,7 @@ function NgoAdmin() {
       <div className="donationContainer">
         <div className="donationContainerTitle">
           <div>All Donations</div>
-          <button className="createButton" onClick={createhandle}>
+          <button type="button" className="btn btn-warning" onClick={createhandle}>
             Create+
           </button>
         </div>
