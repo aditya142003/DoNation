@@ -87,13 +87,13 @@ function NgoAdmin() {
   return (
     <div>
       <div className="titlecontainer">
-        <div className="pageHeading">NGO Admin</div>
-        <div>
+        <div className="pageHeading1">NGO Admin</div>
+        {/* <div>
           <button onClick={logout}>Logout</button>
-        </div>
-        <div>
-          <div>{ngoname}</div>
-          <div>{ngoemail}</div>
+        </div> */}
+        <div className="NgoData"> 
+          <div className="ngoname">{ngoname}</div>
+          <div className="ngoemail">{ngoemail}</div>
         </div>
       </div>
       <div className="AdminBoxesContainer">
@@ -117,12 +117,16 @@ function NgoAdmin() {
           <div className="col-md-4 ">
             {listings?.map((element) => {
               return (
-                <div key={element.uid}>
+              <div className="intro1">
+                <div key={element.uid} className="intro">
                   <div>{element.name}</div>
                   <div>{element.email}</div>
                   <div>{element.amount}</div>
-                  {!element.delivered && (
-                    <button onClick={handleClick}>Verify</button>
+                  </div>
+                  {element.delivered && (
+                    <div className="Verify">
+                    <button onClick={handleClick} className="Veriftbtn">Verify</button>
+                    </div>
                   )}
                 </div>
               );
@@ -134,6 +138,9 @@ function NgoAdmin() {
           <div>Edit Profile</div>
           <div>Setting</div>
           <div>Inbox</div>
+          <div>
+          <button onClick={logout} className="logoutbtn">Logout</button>
+        </div>
         </div>
       </div>
     </div>
