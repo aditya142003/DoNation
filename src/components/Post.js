@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getFirestore, updateDoc, getDoc, doc } from "firebase/firestore";
+import "./Style/Post.css"
 
 import {
   getDatabase,
@@ -60,17 +61,20 @@ function Post() {
 
   return (
     campaigndeatil !== null && (
-      <div>
+      <div className="campaing">
         <div>
-          <div>{campaigndeatil.title}</div>
-          <div>{campaigndeatil.description}</div>
-          <div>{campaigndeatil.duration}</div>
-          <div>{campaigndeatil.totalAmount}</div>
+          <div className="Campaing1">{campaigndeatil.title}</div>
+          <div className="Donate">
+        <div className="CampaingD" >{campaigndeatil.description}</div>
+          <div className="Duration">{campaigndeatil.duration}</div>
+          <div className="amount">{campaigndeatil.totalAmount}</div>
+        </div>
+        <div className="infom">
           <div>{campaigndeatil.amountRec}</div>
-          <h2>Volunteer Info</h2>
+          <h2 className="Volunteer">Volunteer Info</h2>
           {campaignvolunteers?.map((element) => {
             return (
-              <div key={element.uid}>
+              <div  className="Info" key={element.uid}>
                 <div>{element.name}</div>
                 <div>{element.email}</div>
                 <div>{element.amount}</div>
@@ -84,8 +88,9 @@ function Post() {
               </div>
             );
           })}
+          </div>
         </div>
-      </div>
+    </div>
     )
   );
 }
