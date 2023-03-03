@@ -40,6 +40,8 @@ function LoginPage() {
   const [NGOsignuppassword, setNGOsignuppassword] = useState();
   const [NGOsignupaddress, setNGOsignupaddress] = useState();
   const [NGOsignuimage, setNGOsignuimage] = useState();
+  const [NGOsigntag, setNGOsigntag] = useState();
+  const [NGOsigntagarr, setNGOsigntagarr] = useState();
 
   function saveNgo(user) {
     const ngoRef = doc(db, "ngo", user.uid);
@@ -51,6 +53,8 @@ function LoginPage() {
       image: NGOsignuimage,
       totalDonations: 0,
       email: NGOsignupemail,
+      tag: NGOsigntagarr,
+      description: NGOsignupdescription,
       uid: user.uid,
       campaigns: [],
       createdAt: new Date().getTime(),
@@ -71,6 +75,8 @@ function LoginPage() {
 
   //functions to control ngo signup
   function submitNGOsignup() {
+    setNGOsigntagarr(NGOsigntag.split(","));
+
     if (
       NGOsignupname &&
       NGOsignupdescription &&
@@ -79,13 +85,15 @@ function LoginPage() {
       NGOsignupemail &&
       NGOsignuppassword &&
       NGOsignupaddress &&
-      NGOsignuimage
+      NGOsignuimage &&
+      NGOsigntagarr
     ) {
       createUserWithEmailAndPassword(auth, NGOsignupemail, NGOsignuppassword)
         .then((userCred) => {
           const user = userCred.user;
           sendEmailVerification(user, actionCodeSettings)
             .then((res) => {
+              alert("Send Succeful");
               saveNgo(user);
             })
             .catch((err) => {
@@ -102,7 +110,7 @@ function LoginPage() {
 
   //function t o control login
   function submitlogin(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (loginemail && loginpassword) {
       signInWithEmailAndPassword(auth, loginemail, loginpassword)
         .then((userCredential) => {
@@ -111,8 +119,6 @@ function LoginPage() {
           if (!user.emailVerified) {
             alert("Please verify your email");
           } else {
-
-
             localStorage.setItem("uid", user.uid);
             console.log(user.uid);
             localStorage.setItem("loggedIn", true);
@@ -120,7 +126,7 @@ function LoginPage() {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           // alert(`${error}`);
         });
     }
@@ -149,7 +155,7 @@ function LoginPage() {
     <div className="parentContainer">
       <div className="leftContainer">
         <div className="logoConatiner">
-          <img src={require("./Images/Logo.jpg")} alt="Logo" />
+          <img src={require("./Images/doNationWhite.png")} alt="Logo" />
           <div>Welcome to DoNation</div>
         </div>
       </div>
@@ -262,6 +268,11 @@ function LoginPage() {
               <input
                 type="text"
                 onInputCapture={(e) => setNGOsignuimage(e.target.value)}
+              ></input>
+              <div>Tag</div>
+              <input
+                type="text"
+                onInputCapture={(e) => setNGOsigntag(e.target.value)}
               ></input>
             </div>
             <div className="formFields">

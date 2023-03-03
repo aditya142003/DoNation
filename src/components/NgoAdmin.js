@@ -29,6 +29,7 @@ function NgoAdmin() {
   const [ngoname, setngoname] = useState();
   const [ngoCampaigns, setngoCampaigns] = useState(0);
   const [listings, setlistings] = useState([]);
+  const [totaldonation, settotaldonation] = useState([]);
 
   const firestore = getFirestore();
   const ngoRef = doc(firestore, "ngo", ngoUID);
@@ -40,6 +41,7 @@ function NgoAdmin() {
       setngoemail(ngoDetails.email);
       setngoname(ngoDetails.name);
       setngoCampaigns(ngoDetails.campaigns);
+      settotaldonation(ngoDetails.totalDonations);
       console.log(ngoDetails);
       // console.log(ngoCampaigns.length);
     } else {
@@ -61,6 +63,7 @@ function NgoAdmin() {
 
   const getListing = async () => {
     let temp = [];
+    let donations = 0;
     const reference = ref(db, "campaign/");
     onValue(reference, (snapshot) => {
       if (snapshot.val()) {
@@ -87,13 +90,10 @@ function NgoAdmin() {
   return (
     <div>
       <div className="titlecontainer">
-        <div className="pageHeading1">NGO Admin</div>
-        {/* <div>
-          <button onClick={logout}>Logout</button>
-        </div> */}
-        <div className="NgoData"> 
-          <div className="ngoname">{ngoname}</div>
-          <div className="ngoemail">{ngoemail}</div>
+        <div className="pageHeading">NGO Admin</div>
+        <div className="pagengo">
+          <div>{ngoname}</div>
+          <div>{ngoemail}</div>
         </div>
       </div>
       <div className="AdminBoxesContainer">
@@ -102,30 +102,34 @@ function NgoAdmin() {
           <div>{ngoCampaigns.length}</div>
         </div>
         <div className="AdminBoxes">
-          <a>Tap to view</a>
+          <div>Total Donations</div>
+          <div>{totaldonation}</div>
         </div>
         <div className="AdminBoxes">
           <div>NGO Admin</div>
-          <a onClick={Taphandle}>Tap to view</a>
+          <button className="Veriftbtn" onClick={Taphandle}>
+            Tap to view
+          </button>
         </div>
       </div>
       <div className="recentMainContainer">
         <div className="recentContainer">
           <div className="recentContainerTitle">
-            <div>Recent Activity</div>
+            <b>Recent Activity</b>
           </div>
           <div className="col-md-4 ">
             {listings?.map((element) => {
               return (
-              <div className="intro1">
-                <div key={element.uid} className="intro">
-                  <div>{element.name}</div>
-                  <div>{element.email}</div>
-                  <div>{element.amount}</div>
+                <div className="userTemplateContainer">
+                  <div className="userTemplate">
+                    <div>{element.name}</div>
+                    <p className="textoverflow">{element.email}</p>
                   </div>
-                  {element.delivered && (
+                  {!element.delivered && (
                     <div className="Verify">
-                    <button onClick={handleClick} className="Veriftbtn">Verify</button>
+                      <button onClick={handleClick} className="logoutbtn">
+                        Verify
+                      </button>
                     </div>
                   )}
                 </div>
@@ -139,8 +143,14 @@ function NgoAdmin() {
           <div>Setting</div>
           <div>Inbox</div>
           <div>
-          <button onClick={logout} className="logoutbtn">Logout</button>
-        </div>
+            <button
+              onClick={logout}
+              style={{ marginTop: "20px" }}
+              className="logoutbtn"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>

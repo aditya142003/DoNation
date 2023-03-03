@@ -2,13 +2,14 @@
   display: flex;
 }
 .pageHeading1{
-  width: 250px;
-  height: 50px;
-  border-radius: 0px 0px 20px;
-  padding-top: 10px;
-  text-align: center;
+  display: flex;
   background-color: #f3c222;
+  width: 200px;
+  color: white;
   font-size: 23px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 }
 .recentContainer {
   height: 60vh;
@@ -20,6 +21,7 @@
   margin-top: 30px;
   font-size: 23px;
   padding: 10px;
+  overflow-y: scroll;
 }
 .recentContainerTitle {
   display: flex;
@@ -42,6 +44,7 @@
 }
 .recentMainContainer {
   display: flex;
+  
 }
 .optionsContainer {
   width: 10%;
@@ -63,40 +66,34 @@ height: 50px;
 margin-top: 15px;
 }
 .Veriftbtn{
-  border: none;
-  /* color: #f3c222; */
   background-color: #f3c222;
-  font-family: "Roboto";
-font-style: normal;
-font-weight: 700;
-font-size: 23px;
-padding-top: 10px;
-padding-left: 15px;
-/* text-align: center; */
+  border: transparent;
+  width: 150px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
 
 }
 .logoutbtn{
-  border: none;
-  /* color: #f3c222; */
   background-color: #f3c222;
-  font-family: "Roboto";
-font-style: normal;
-font-weight: 700;
-font-size: 23px;
-padding-top: 5px;
-padding-left: 15px;
-height: 50px;
-width: 100px;
-border-radius: 10px;
-margin-top: 150px;
-
+  border: transparent;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
 }
 
-.intro1{
+.userTemplateContainer{
+  margin: 10px;
   display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  width: 800px;
 }
-.intro{
-  margin: 15px;
+.userTemplate{
+  width: 70%;
 }
 .NgoData{
   margin-top: 10px;
@@ -105,4 +102,14 @@ margin-top: 150px;
 }
 .ngoemail{
   margin-top: 5px;
+}
+.pagengo{
+  display: grid;
+  background-color: #f3c222;
+  width: 300px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 }
