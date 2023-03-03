@@ -1,6 +1,15 @@
 .AdminBoxesContainer {
   display: flex;
 }
+.pageHeading1{
+  width: 250px;
+  height: 50px;
+  border-radius: 0px 0px 20px;
+  padding-top: 10px;
+  text-align: center;
+  background-color: #f3c222;
+  font-size: 23px;
+}
 .recentContainer {
   height: 60vh;
   width: 70%;
@@ -19,7 +28,7 @@
   font-size: 23px;
 }
 .AdminBoxes {
-    display: grid;
+  display: grid;
   height: 20vh;
   font-size: 23px;
   width: 23%;
@@ -41,4 +50,59 @@
   margin-right: auto;
   margin-top: 40px;
   font-size: 23px;
+}
+.Verify{
+margin-left: 600px;
+/* border-bottom-style: hidden; */
+background: #f3c222;
+border-radius: 10px;
+color: #ffffff;
+line-height: 33px;
+width: 100px;
+height: 50px;
+margin-top: 15px;
+}
+.Veriftbtn{
+  border: none;
+  /* color: #f3c222; */
+  background-color: #f3c222;
+  font-family: "Roboto";
+font-style: normal;
+font-weight: 700;
+font-size: 23px;
+padding-top: 10px;
+padding-left: 15px;
+/* text-align: center; */
+
+}
+.logoutbtn{
+  border: none;
+  /* color: #f3c222; */
+  background-color: #f3c222;
+  font-family: "Roboto";
+font-style: normal;
+font-weight: 700;
+font-size: 23px;
+padding-top: 5px;
+padding-left: 15px;
+height: 50px;
+width: 100px;
+border-radius: 10px;
+margin-top: 150px;
+
+}
+
+.intro1{
+  display: flex;
+}
+.intro{
+  margin: 15px;
+}
+.NgoData{
+  margin-top: 10px;
+  font-size: large;
+  margin-right: 5px;
+}
+.ngoemail{
+  margin-top: 5px;
 }

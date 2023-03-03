@@ -1,61 +1,50 @@
-.Campaing1{
-font-size: larger;
-/* margin-top: 10px; */
-background-color: #f3c222;
-width: 250px;
-height: 50px;
-border-radius: 0px 0px 20px ;
-padding-top: 10px;
-text-align: center;
-
-}
-
-.CampaingD{
-    /* border: 1px solid black; */
-    text-align: center;
-    margin-top: 10px;
-    font-size: large;
-}
-.Volunteer{
-   /* text-align: center; */
-   margin-left: 20px;
-
-}
-.Info{
-    /* border: 1px solid black;  */
-    margin: 10px;
-    /* box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%); */
-    padding: 10px;
-    font-size: larger;
-    width: 700px;
-    /* margin-left: 20px; */
-    margin-left: 20px;
-
-
-}
-.Donate{
-    /* border: 1px solid black; */
-    /* margin: 20px; */
-    box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
-    /* padding: 5px; */
-    /* width: 500px; */
-    /* align-items: center; */
-    /* margin: auto; */
-    width: 50%;
-    /* border: 3px solid green; */
-    padding: 10px;
-    margin-top: 50px;
-    margin-left: 30px;
+.Campaing1 {
+  font-size: larger;
   
+  background-color: #f3c222;
+  width: 250px;
+  height: 50px;
+  border-radius: 0px 0px 20px;
+  padding-top: 10px;
+  text-align: center;
 }
-.Duration{
-    margin: 10px;
+
+.CampaingD {
+  /* border: 1px solid black; */
+  text-align: center;
+  margin-top: 10px;
+  font-size: large;
 }
-.amount{
-    margin: 10px;
+.Volunteer {
+  /* text-align: center; */
+  margin-left: 20px;
 }
-.infom{
-    box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
-    margin-left: 30px;
-    width: 765px;
+.Info {
+  /* border: 1px solid black;  */
+  margin: 10px;
+  /* box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%); */
+  padding: 10px;
+  font-size: larger;
+  width: 700px;
+  /* margin-left: 20px; */
+  margin-left: 20px;
+}
+.Donate {
+  box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
+  width: 50%;
+  padding: 10px;
+  margin-top: 50px;
+  margin-left: 30px;
+}
+.Duration {
+  margin: 10px;
+}
+.amount {
+  margin: 10px;
+}
+.infom {
+  margin-top: 20px;
+  box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
+  margin-left: 30px;
+  width: 765px;
 }
