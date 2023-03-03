@@ -25,19 +25,6 @@ a {
   left: 0;
   top: 0;
   transition: 0.5s ease;
-  z-index: 1;
-}
-.signupuserunteerContainer {
-  background-color: white;
-  width: 50vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  left: 0;
-  bottom: 60px;
-  transition: 0.5s ease;
-  z-index: 1;
 }
 .signupNGOContainer {
   background-color: white;
@@ -49,7 +36,7 @@ a {
   left: -25%;
   bottom: 60px;
   transition: 0.5s ease;
-  z-index: 2;
+  overflow: scroll;
 }
 .formContainer {
   width: 70%;

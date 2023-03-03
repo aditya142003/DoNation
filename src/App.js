@@ -1,65 +1,33 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
-import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import NgoAdmin from "./components/NgoAdmin";
 import DefaultRoute from "./components/DefaultRoute";
-import Admin from './components/Admin'
-import AlterBoard from "./components/AlterBoard";
+import AlertBoard from "./components/AlertBoard";
+import Post from "./components/Post";
+
+const FireBase = require("./Firebase/config");
 
 function App() {
-  const [usersignupusername, setusersignupusername] = useState();
-  const [usersignupemail, setusersignupemail] = useState();
-  const [usersignuppassword, setusersignuppassword] = useState();
-  const [loginemail, setloginemail] = useState();
-  const [loginpassword, setloginpassword] = useState();
-  const [NGOsignupname, setNGOsignupname] = useState();
-  const [NGOsignupdescription, setNGOsignupdescription] = useState();
-  const [NGOsignuplan, setNGOsignuplan] = useState();
-  const [NGOsignuplong, setNGOsignuplong] = useState();
-  const [NGOsignupemail, setNGOsignupemail] = useState();
-  const [NGOsignuppassword, setNGOsignuppassword] = useState();
-  const [currentUser, setcurrentUser] = useState("");
-  const navigate = useNavigate();
-
-  function submitusersignup() {}
-  function submitNGOsignup() {}
-
-  function submitlogin() {
-    // navigate("/Home");
-    navigate("/NgoAdmin");
-  }
+  const [campaignid, setcampaignid] = useState();
+   console.log(localStorage.getItem("loggedIn"));
 
   return (
     <div>
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
-            <LoginPage
-              setusersignupusername={setusersignupusername}
-              setusersignupemail={setusersignupemail}
-              setusersignuppassword={setusersignuppassword}
-              setloginemail={setloginemail}
-              setloginpassword={setloginpassword}
-              setNGOsignupname={setNGOsignupname}
-              setNGOsignupdescription={setNGOsignupdescription}
-              setNGOsignuplan={setNGOsignuplan}
-              setNGOsignuplong={setNGOsignuplong}
-              setNGOsignupemail={setNGOsignupemail}
-              setNGOsignuppassword={setNGOsignuppassword}
-              submitusersignup={submitusersignup}
-              submitNGOsignup={submitNGOsignup}
-              submitlogin={submitlogin}
-            />
+            localStorage.getItem("loggedIn") ? <NgoAdmin /> : <LoginPage />
           }
-        ></Route>
-        <Route path="/Home" element={<Home />}></Route>
-        <Route path="/Admin" element={<Admin />}></Route>
+        ></Route> */}
+        <Route path="/" element={<LoginPage />}></Route>
+        <Route path="/AlertBoard" element={<AlertBoard />}></Route>
         <Route path="/NgoAdmin" element={<NgoAdmin />}></Route>
         <Route path="/CreatePost" element={<CreatePost />}></Route>
+        <Route path="/Post" element={<Post />}></Route>
         <Route path="*" element={<DefaultRoute />} />
       </Routes>
     </div>

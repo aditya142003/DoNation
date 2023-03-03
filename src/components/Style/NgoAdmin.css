@@ -1,19 +1,44 @@
-.titlecontainer {
+.AdminBoxesContainer {
+  display: flex;
+}
+.recentContainer {
+  height: 60vh;
+  width: 70%;
+  box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
+  transform: translateY(-0.25em);
+  margin-left: 5%;
+  margin-right: auto;
+  margin-top: 30px;
+  font-size: 23px;
+  padding: 10px;
+}
+.recentContainerTitle {
   display: flex;
   justify-content: space-between;
-}
-.pageHeading {
-  background-color: #f3c222;
-  width: 200px;
-  color: white;
+  padding: 15px;
   font-size: 23px;
 }
-.donationContainer {
-  height: 85vh;
-  width: 85%;
+.AdminBoxes {
+    display: grid;
+  height: 20vh;
+  font-size: 23px;
+  width: 23%;
   box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
   transform: translateY(-0.25em);
   margin-left: auto;
   margin-right: auto;
   margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.recentMainContainer {
+  display: flex;
+}
+.optionsContainer {
+  width: 10%;
+  height: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  font-size: 23px;
 }

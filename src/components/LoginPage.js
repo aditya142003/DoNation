@@ -1,22 +1,140 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Style/LoginPage.css";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
-function LoginPage(props) {
-  function submitlogin() {
-    props.submitlogin();
-    
+function LoginPage() {
+  const auth = getAuth();
+  const db = getFirestore();
+
+  const actionCodeSettings = {
+    url: "https://donationweb.web.app/",
+    handleCodeInApp: true,
+    iOS: { bundleId: "com.donation.app" },
+    android: {
+      packageName: "com.donation.app",
+      installApp: true,
+      minimumVersion: "12",
+    },
+    dynamicLinkDomain: "donationweb.page.link",
+  };
+
+  const navigate = useNavigate();
+  //variables from ngo login
+  const [loginemail, setloginemail] = useState();
+  const [loginpassword, setloginpassword] = useState();
+
+  //variables from ngo signup
+  const [NGOsignupname, setNGOsignupname] = useState();
+  const [NGOsignupdescription, setNGOsignupdescription] = useState();
+  const [NGOsignuplan, setNGOsignuplan] = useState();
+  const [NGOsignuplong, setNGOsignuplong] = useState();
+  const [NGOsignupemail, setNGOsignupemail] = useState();
+  const [NGOsignuppassword, setNGOsignuppassword] = useState();
+  const [NGOsignupaddress, setNGOsignupaddress] = useState();
+  const [NGOsignuimage, setNGOsignuimage] = useState();
+
+  function saveNgo(user) {
+    const ngoRef = doc(db, "ngo", user.uid);
+    const ngouser = {
+      name: NGOsignupname,
+      address: NGOsignupaddress,
+      lat: NGOsignuplan,
+      long: NGOsignuplong,
+      image: NGOsignuimage,
+      totalDonations: 0,
+      email: NGOsignupemail,
+      uid: user.uid,
+      campaigns: [],
+      createdAt: new Date().getTime(),
+      updatedAt: new Date().getTime(),
+    };
+    setDoc(ngoRef, ngouser)
+      .then(() => {
+        //setModalVisible(false)
+        console.log("Document written with ID: ", user.uid);
+
+        setpositionshift(0);
+      })
+      .catch((error) => {
+        alert("Register", `${error}`);
+        console.log(error);
+      });
   }
 
-  function submitusersignup() {
-    props.submitusersignup();
-    
-  }
+  //functions to control ngo signup
   function submitNGOsignup() {
-    props.submitNGOsignup();
+    if (
+      NGOsignupname &&
+      NGOsignupdescription &&
+      NGOsignuplan &&
+      NGOsignuplong &&
+      NGOsignupemail &&
+      NGOsignuppassword &&
+      NGOsignupaddress &&
+      NGOsignuimage
+    ) {
+      createUserWithEmailAndPassword(auth, NGOsignupemail, NGOsignuppassword)
+        .then((userCred) => {
+          const user = userCred.user;
+          sendEmailVerification(user, actionCodeSettings)
+            .then((res) => {
+              saveNgo(user);
+            })
+            .catch((err) => {
+              alert("Error in send");
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          alert("Error in Create");
+          console.log(err);
+        });
+    }
+  }
+
+  //function t o control login
+  function submitlogin(e) {
+    e.preventDefault()
+    if (loginemail && loginpassword) {
+      signInWithEmailAndPassword(auth, loginemail, loginpassword)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          if (!user.emailVerified) {
+            alert("Please verify your email");
+          } else {
+
+
+            localStorage.setItem("uid", user.uid);
+            console.log(user.uid);
+            localStorage.setItem("loggedIn", true);
+            navigate("/NgoAdmin");
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          // alert(`${error}`);
+        });
+    }
+  }
+
+  function resetPassword() {
+    if (loginemail) {
+      sendPasswordResetEmail(auth, loginemail).catch((error) => {
+        alert(`${error}`);
+      });
+    }
   }
 
   const [positionshift, setpositionshift] = useState(0);
-  const [zindexchange, setzindexchange] = useState(1);
   function toggleposition() {
     if (positionshift === 0) {
       setpositionshift(-25);
@@ -24,23 +142,6 @@ function LoginPage(props) {
     } else {
       setpositionshift(0);
       console.log(positionshift);
-    }
-    if (zindexchange === 3) {
-      setzindexchange(1);
-      console.log(zindexchange);
-    }
-  }
-  function toggleindex() {
-    if (positionshift === 0) {
-      setpositionshift(-25);
-      console.log(positionshift);
-    } else {
-      setpositionshift(0);
-      console.log(positionshift);
-    }
-    if (zindexchange === 1) {
-      setzindexchange(3);
-      console.log(zindexchange);
     }
   }
 
@@ -61,14 +162,14 @@ function LoginPage(props) {
               <input
                 type="email"
                 spellCheck="false"
-                onchange={(e) => props.setloginemail(e.target.value)}
+                onInputCapture={(e) => setloginemail(e.target.value)}
               ></input>
             </div>
             <div className="formFields">
               <div>Password</div>
               <input
                 type="password"
-                onchange={(e) => props.setloginpassword(e.target.value)}
+                onInputCapture={(e) => setloginpassword(e.target.value)}
               ></input>
             </div>
             <div className="formFields">
@@ -80,13 +181,13 @@ function LoginPage(props) {
               <div>Dont have an account?</div>
               <div>
                 <div>
-                  <a onClick={toggleposition} style={{ cursor: "pointer" }}>
-                    Register Now as NGO
+                  <a onClick={resetPassword} style={{ cursor: "pointer" }}>
+                    Forget Password
                   </a>
                 </div>
                 <div>
-                  <a onClick={toggleindex} style={{ cursor: "pointer" }}>
-                    Register Now as User
+                  <a onClick={toggleposition} style={{ cursor: "pointer" }}>
+                    Register Now as NGO
                   </a>
                 </div>
               </div>
@@ -94,56 +195,7 @@ function LoginPage(props) {
           </form>
         </div>
       </div>
-      <div
-        className="signupuserunteerContainer"
-        style={{
-          left: `${positionshift}%`,
-          zIndex: `${zindexchange}`,
-        }}
-      >
-        <div className="formContainer">
-          <form action="#">
-            <div className="formHeading">Signup</div>
-            <div className="formFields">
-              <div>Username</div>
-              <input
-                type="text"
-                onchange={(e) => props.setusersignupusername(e.target.value)}
-              ></input>
-            </div>
-            <div className="formFields">
-              <div>Email</div>
-              <input
-                type="email"
-                spellCheck="false"
-                onchange={(e) => props.setusersignupemail(e.target.value)}
-              ></input>
-            </div>
-            <div className="formFields">
-              <div>Password</div>
-              <input
-                type="password"
-                onchange={(e) => props.setusersignuppassword(e.target.value)}
-              ></input>
-            </div>
-            <div className="formFields">
-              <button className="submit" onClick={submitusersignup}>
-                SUBMIT
-              </button>
-            </div>
-            <div className="formFields divertingText">
-              Already have an account?{" "}
-              <a onClick={toggleposition} style={{ cursor: "pointer" }}>
-                Login Now
-              </a>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div
-        className="signupNGOContainer"
-        style={{ left: `${positionshift - 25}%` }}
-      >
+      <div className="signupNGOContainer" style={{ left: `${positionshift}%` }}>
         <div className="formContainer">
           <form action="#">
             <div className="formHeading">Signup NGO</div>
@@ -151,7 +203,7 @@ function LoginPage(props) {
               <div>NGO Name</div>
               <input
                 type="text"
-                onchange={(e) => props.setNGOsignupname(e.target.value)}
+                onInputCapture={(e) => setNGOsignupname(e.target.value)}
               ></input>
             </div>
             <div className="formFields">
@@ -161,7 +213,7 @@ function LoginPage(props) {
                   <input
                     type="email"
                     spellCheck="false"
-                    onchange={(e) => props.setNGOsignupemail(e.target.value)}
+                    onInputCapture={(e) => setNGOsignupemail(e.target.value)}
                   ></input>
                 </div>
                 <div>
@@ -169,8 +221,8 @@ function LoginPage(props) {
                   <input
                     type="text"
                     spellCheck="false"
-                    onchange={(e) =>
-                      props.setNGOsignupdescription(e.target.value)
+                    onInputCapture={(e) =>
+                      setNGOsignupdescription(e.target.value)
                     }
                   ></input>
                 </div>
@@ -181,11 +233,13 @@ function LoginPage(props) {
               <div className="doubleinput">
                 <input
                   type="number"
-                  onchange={(e) => props.setNGOsignuplan(e.target.value)}
+                  step="any"
+                  onInputCapture={(e) => setNGOsignuplan(e.target.value)}
                 ></input>
                 <input
                   type="number"
-                  onchange={(e) => props.setNGOsignuplong(e.target.value)}
+                  step="any"
+                  onInputCapture={(e) => setNGOsignuplong(e.target.value)}
                 ></input>
               </div>
             </div>
@@ -193,7 +247,21 @@ function LoginPage(props) {
               <div>Password</div>
               <input
                 type="password"
-                onchange={(e) => props.setNGOsignuppassword(e.target.value)}
+                onInputCapture={(e) => setNGOsignuppassword(e.target.value)}
+              ></input>
+            </div>
+            <div className="formFields">
+              <div>Address</div>
+              <input
+                type="text"
+                onInputCapture={(e) => setNGOsignupaddress(e.target.value)}
+              ></input>
+            </div>
+            <div className="formFields">
+              <div>Image</div>
+              <input
+                type="text"
+                onInputCapture={(e) => setNGOsignuimage(e.target.value)}
               ></input>
             </div>
             <div className="formFields">
