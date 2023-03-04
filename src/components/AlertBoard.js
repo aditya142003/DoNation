@@ -68,23 +68,24 @@ function NgoAdmin() {
 
   return (
     <div>
-      <div className="titlecontainer">
-        <div className="pageHeading">Alert Board</div>
-        <div className="pagengo">
-          <div >{ngoname}</div>
-          <div >{ngoemail}</div>
+       <div className="titlecontainer">
+        <div className="pageHeading1">Alert Board</div>
+        <div class="triangle-down"></div>
+       
+        <div className="ngoAbout">
+          <div>Hi,{ngoname}</div>
+          <div>{ngoemail}</div>
         </div>
       </div>
       <div className="donationContainer">
         <div className="donationContainerTitle">
-          <div>All Donations</div>
-          <button type="button" className="createButton" onClick={createhandle}>
-            Create+
+          <div>All Campaigns</div>
+          <button type="button" class="btn btn-warning" onClick={createhandle}>
+            Create New +
           </button>
         </div>
         {listings.map((element) => {
           return (
-            <div key={element.campaignId}>
               <PostTemplate
                 campaignId={element.campaignId}
                 title={element.title}
@@ -92,7 +93,6 @@ function NgoAdmin() {
                 totalAmount={element.totalAmount}
                 amountRec={element.amountRec}
               />
-            </div>
           );
         })}
       </div>

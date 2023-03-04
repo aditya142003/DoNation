@@ -34,7 +34,8 @@ a {
   justify-content: center;
   position: relative;
   left: -25%;
-  bottom: 60px;
+  padding-bottom: 60px;
+ 
   transition: 0.5s ease;
   overflow: scroll;
 }
@@ -43,14 +44,14 @@ a {
   height: 70%;
 }
 .formFields {
-  padding: 25px;
+  padding: 5px;
   padding-top: 0px;
   font-size: 28px;
+  margin-top: 20px;
 }
 .formFields > div {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 11px;
 }
 .formFields > input, .doubleinput > input, .doubleinput > div > input {
   border-top-style: hidden;
@@ -95,7 +96,7 @@ a {
   transform: translateY(-0.25em);
 }
 .formHeading {
-  padding: 25px;
+  padding: 20px;
   padding-bottom: 40px;
   font-size: 40px;
 }
@@ -105,7 +106,7 @@ a {
   color: #aeaeae;
 }
 img {
-  width: 500px;
+  width: 400px;
   height: 400px;
 }
 .logoConatiner {

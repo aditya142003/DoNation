@@ -15,8 +15,8 @@
 .donationContainer {
   height: 85vh;
   width: 90%;
-  box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
-  transform: translateY(-0.25em);
+  box-shadow: 0em 0em 1em 0em hsl(0, 0%, 71%);
+  border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 30px;
@@ -28,6 +28,7 @@
   justify-content: space-between;
   padding: 19px;
   font-size: 28px;
+  margin-bottom: 50px;
 }
 .createButton{
   background-color: #f3c222;

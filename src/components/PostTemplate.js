@@ -12,10 +12,10 @@ function PostOverviewTemplate(props) {
   let percent = (props.amountRec / props.totalAmount) * 100;
 
   return (
-    <div className="postTemplateContainer">
+    <div key={campaignid} className="postTemplateContainer">
       <div className="postTemplate">
         <b>{props.title}</b>
-        <p className="textoverflow">{props.description}</p>
+        <small class="text-muted textoverflow">{props.description}</small>
         <div>
           {props.amountRec} / {props.totalAmount}
         </div>
@@ -33,8 +33,8 @@ function PostOverviewTemplate(props) {
       </div>
       <div>
         <div>
-          <button type="button" className="viewButton" onClick={handleView}>
-            Tap to view
+          <button type="button" class="btn btn-outline-dark" onClick={handleView}>
+            View Details
           </button>
         </div>
       </div>

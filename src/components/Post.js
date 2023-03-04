@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getFirestore, updateDoc, getDoc, doc, increment } from "firebase/firestore";
+import {
+  getFirestore,
+  updateDoc,
+  getDoc,
+  doc,
+  increment,
+} from "firebase/firestore";
 import "./Style/Post.css";
 
 import {
@@ -37,10 +43,26 @@ function Post() {
     });
   };
 
-  async function handleVerify(uid, amount) {
+  async function handleVerify(uid, amount,donationId) {
     const reference = ref(db, `campaign/${campaignid}/volunteers`);
+    const userRef = doc(firestore, "mobileUsers", uid);
+    const timeStamp = new Date().getTime();
+    const userSnap = await getDoc(userRef)
+    let userDonationsNew = []
+    let user = userSnap.data()
+    let userDonations = JSON.parse(user.donations)
 
+    userDonations.forEach(donation=>{
+      if(donation.donationId==donationId){
+        donation.delivered = true;
+        donation.deliveredOn = timeStamp
+        userDonationsNew.push(donation)
+      }else{
+        userDonationsNew.push(donation)
+      }
+    })
 
+   
 
     let temp = [];
     onValue(reference, (snapshot) => {
@@ -49,7 +71,7 @@ function Post() {
       });
     });
 
-    const userIndex = temp.findIndex((user) => user.uid == uid);
+    const userIndex = temp.findIndex((user) => user.uid == uid && user.donationId==donationId);
     if (userIndex !== -1) {
       const updates = {};
       updates["/campaign/" + campaignid + "/amountRec"] = parseInt(
@@ -60,48 +82,75 @@ function Post() {
       ] = true;
       updates[
         "/campaign/" + campaignid + "/volunteers/" + userIndex + "/deliveredOn"
-      ] = new Date().getTime();
+      ] = timeStamp
 
-      await updateDoc(ngoRef,{totalDonations:increment(amount)})
+      await updateDoc(ngoRef, { totalDonations: increment(amount) });
+      if(userDonationsNew.length==userDonations.length){
+        await updateDoc(userRef,{donations:JSON.stringify(userDonationsNew)})
+      }
+      
 
       return update(ref(db), updates);
     }
-
-
-
   }
 
   return (
     campaigndeatil !== null && (
-      <div className="campaing">
-        <div>
-          <div className="Campaing1">{campaigndeatil.title}</div>
-          <div className="Donate">
-            <div className="CampaingD">{campaigndeatil.description}</div>
-            <div className="Duration">{campaigndeatil.duration}</div>
-            <div className="amount">{campaigndeatil.totalAmount}</div>
+      <div>
+         <div className="titlecontainer">
+        <div className="pageHeading1">Campaign Detail</div>
+        <div class="triangle-down"></div>
+
+       
+       
+      </div>
+        <div className="postContainer">
+          <div className="detailHolder">
+            <h5>Title</h5>
+            <small class="text-muted">{campaigndeatil.title}</small>
           </div>
-          <div className="infom">
-            <div>{campaigndeatil.amountRec}</div>
-            <h2 className="Volunteer">Volunteer Info</h2>
-            {campaignvolunteers?.map((element) => {
-              return (
-                <div className="Info" key={element.uid}>
-                  <div>{element.name}</div>
-                  <div>{element.email}</div>
-                  <div>{element.amount}</div>
-                  {!element.delivered && (
-                    <button
-                      onClick={() => handleVerify(element.uid, element.amount)}
-                    >
-                      Verify
-                    </button>
+          <div className="detailHolder">
+            <h5>Description</h5>
+            <small class="text-muted">{campaigndeatil.description}</small>
+          </div>
+
+          <div className="detailHolder">
+            <h5>Duration</h5>
+            <small class="text-muted">{campaigndeatil.duration} Days</small>
+          </div>
+
+          <div className="detailHolder">
+            <h5>Donations</h5>
+            <small class="text-muted">{campaigndeatil.amountRec}/{campaigndeatil.totalAmount} Items</small>
+          </div>
+
+          <div className="detailHolder">
+            <h5 >Volunteers - </h5>
+           {campaignvolunteers && campaignvolunteers.length>0?
+            campaignvolunteers.map((user,index)=>(
+              <div className="volHolder">
+                <span>{user.name}</span>
+                <span>Donated - {user.amount}</span>
+                {!user.delivered && (
+                      <button  onClick={() =>
+                          handleVerify(user.uid, user.amount,user.donationId)
+                        } type="button" className="btn btn-warning btn-sm">
+                        Mark As Delivered
+                      </button>
                   )}
-                </div>
-              );
-            })}
+              </div>
+            ))
+            :
+            (<small class="text-muted">No Volunteers right Now !</small>)
+           }
+      
+         
           </div>
+
+
+          
         </div>
+        
       </div>
     )
   );

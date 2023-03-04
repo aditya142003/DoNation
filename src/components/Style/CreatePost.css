@@ -9,9 +9,10 @@
   font-size: 23px;
 }
 .createPostdonationContainer {
-  height: 85vh;
-  width: 85%;
-  box-shadow: 0em 0em 0.5em 0.1em hsl(0deg 0% 40%);
+  height: 80vh;
+  width: 70%;
+  box-shadow: 0em 0em 1em 0em hsl(0deg 0% 78%);
+  border-radius: 10px;
   transform: translateY(-0.25em);
   margin-left: auto;
   margin-right: auto;
@@ -42,7 +43,6 @@
 .createPostformFields {
   padding: 25px;
   padding-top: 0px;
-  font-size: 28px;
   
 }
 .createPostformFields > div {

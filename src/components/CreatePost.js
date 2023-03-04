@@ -93,29 +93,31 @@ function CreatePost() {
   return (
     <div>
       <div className="titlecontainer">
-        <div className="pageHeading">Create Campaign</div>
-        <div className="pagengo">
-          <div>{ngoname}</div>
+        <div className="pageHeading1">New Campaign</div>
+        <div class="triangle-down"></div>
+
+       
+        <div className="ngoAbout">
+          <div>Hi,{ngoname}</div>
           <div>{ngoemail}</div>
         </div>
       </div>
       <div className="createPostdonationContainer">
-        <div
-          style={{ position: "relative", left: "98%", cursor: "pointer" }}
-          onClick={handlecross}
-        >
-          X
-        </div>
+
+        <button onClick={handlecross} style={{ position: "relative", left: "92%",top:'3%', cursor: "pointer" }} type="button" class="btn btn-outline-danger">Close</button>
         <div
           className="createPostMainContainer"
           style={{ left: "119px", top: "26px" }}
         >
+      
           <div className="createPostformContainer">
+         
             <form action="#">
               <div style={{ display: "flex" }}>
+              
                 <div>
                   <div className="createPostformFields">
-                    <div>Title</div>
+                    <h5>Title</h5>
                     <input
                       type="text"
                       spellCheck="false"
@@ -123,7 +125,7 @@ function CreatePost() {
                     ></input>
                   </div>
                   <div className="createPostformFields">
-                    <div>Description</div>
+                    <h5>Description</h5>
                     <input
                       type="text"
                       onInputCapture={(e) =>
@@ -132,7 +134,7 @@ function CreatePost() {
                     ></input>
                   </div>
                   <div className="createPostformFields">
-                    <div>Total Amount</div>
+                    <h5>Total Amount</h5>
                     <input
                       type="number"
                       onInputCapture={(e) =>
@@ -141,7 +143,7 @@ function CreatePost() {
                     ></input>
                   </div>
                   <div className="createPostformFields">
-                    <div>Duration (Days)</div>
+                    <h5>Duration (Days)</h5>
                     <input
                       type="number"
                       onInputCapture={(e) => setTimeDuration(e.target.value)}
@@ -150,7 +152,7 @@ function CreatePost() {
                 </div>
               </div>
               <div className="createPostformFields">
-                <button onClick={submit} className="submit">
+                <button onClick={submit} type="button" class="btn btn-warning  btn-lg">
                   SUBMIT
                 </button>
               </div>

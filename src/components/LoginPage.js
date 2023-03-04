@@ -6,7 +6,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
-  sendPasswordResetEmail,
 } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
@@ -126,17 +125,19 @@ function LoginPage() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          const errorCode = error.code;
+          if(errorCode=="auth/invalid-email"){
+            alert("Invalid email, please try again !")
+          }else if(errorCode == "auth/wrong-password"){
+            alert("Wrong password, please try again !")
+          }else if(errorCode == "auth/user-not-found"){
+            alert("No user registered with this email !")
+          }else{
+            alert('Something went wrong !')
+          }
+          console.log(error)
           // alert(`${error}`);
         });
-    }
-  }
-
-  function resetPassword() {
-    if (loginemail) {
-      sendPasswordResetEmail(auth, loginemail).catch((error) => {
-        alert(`${error}`);
-      });
     }
   }
 
@@ -164,7 +165,7 @@ function LoginPage() {
           <form action="#">
             <div className="formHeading">Login</div>
             <div className="formFields">
-              <div>Email</div>
+              <h4>Email</h4>
               <input
                 type="email"
                 spellCheck="false"
@@ -172,25 +173,20 @@ function LoginPage() {
               ></input>
             </div>
             <div className="formFields">
-              <div>Password</div>
+              <h4>Password</h4>
               <input
                 type="password"
                 onInputCapture={(e) => setloginpassword(e.target.value)}
               ></input>
             </div>
             <div className="formFields">
-              <button className="submit" onClick={submitlogin}>
+              <button type="button" class="btn btn-warning  btn-lg" onClick={submitlogin}>
                 SUBMIT
               </button>
             </div>
             <div className="formFields divertingText">
               <div>Dont have an account?</div>
               <div>
-                <div>
-                  <a onClick={resetPassword} style={{ cursor: "pointer" }}>
-                    Forget Password
-                  </a>
-                </div>
                 <div>
                   <a onClick={toggleposition} style={{ cursor: "pointer" }}>
                     Register Now as NGO
@@ -204,18 +200,29 @@ function LoginPage() {
       <div className="signupNGOContainer" style={{ left: `${positionshift}%` }}>
         <div className="formContainer">
           <form action="#">
-            <div className="formHeading">Signup NGO</div>
+            <h4 className="formHeading">Signup NGO</h4>
             <div className="formFields">
-              <div>NGO Name</div>
-              <input
-                type="text"
-                onInputCapture={(e) => setNGOsignupname(e.target.value)}
-              ></input>
+              <div className="doubleinput">
+                <div>
+                  <h4>NGO Name</h4>
+                  <input
+                    type="text"
+                    onInputCapture={(e) => setNGOsignupname(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <h4>Address</h4>
+                  <input
+                    type="text"
+                    onInputCapture={(e) => setNGOsignupaddress(e.target.value)}
+                  ></input>
+                </div>
+              </div>
             </div>
             <div className="formFields">
               <div className="doubleinput">
                 <div>
-                  <div>Email</div>
+                  <h4>Email</h4>
                   <input
                     type="email"
                     spellCheck="false"
@@ -223,7 +230,7 @@ function LoginPage() {
                   ></input>
                 </div>
                 <div>
-                  <div>Description</div>
+                  <h4>Description</h4>
                   <input
                     type="text"
                     spellCheck="false"
@@ -235,58 +242,63 @@ function LoginPage() {
               </div>
             </div>
             <div className="formFields">
-              <div>Latitude Longitude Coordinates</div>
               <div className="doubleinput">
-                <input
-                  type="number"
-                  step="any"
-                  onInputCapture={(e) => setNGOsignuplan(e.target.value)}
-                ></input>
-                <input
-                  type="number"
-                  step="any"
-                  onInputCapture={(e) => setNGOsignuplong(e.target.value)}
-                ></input>
+                <div>
+                  <h4>Latitude</h4>
+                  <input
+                    type="number"
+                    step="any"
+                    onInputCapture={(e) => setNGOsignuplan(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <h4>Longitude</h4>
+                  <input
+                    type="number"
+                    step="any"
+                    onInputCapture={(e) => setNGOsignuplong(e.target.value)}
+                  ></input>
+                </div>
               </div>
             </div>
             <div className="formFields">
-              <div>Password</div>
+              <div className="doubleinput">
+                <div>
+                  <h4>Image</h4>
+                  <input
+                    type="text"
+                    onInputCapture={(e) => setNGOsignuimage(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <h4>Tag</h4>
+                  <input
+                    type="text"
+                    onInputCapture={(e) => setNGOsigntag(e.target.value)}
+                  ></input>
+                </div>
+              </div>
+            </div>
+            <div className="formFields">
+              <h4>Password</h4>
               <input
                 type="password"
                 onInputCapture={(e) => setNGOsignuppassword(e.target.value)}
               ></input>
             </div>
+
             <div className="formFields">
-              <div>Address</div>
-              <input
-                type="text"
-                onInputCapture={(e) => setNGOsignupaddress(e.target.value)}
-              ></input>
-            </div>
-            <div className="formFields">
-              <div>Image</div>
-              <input
-                type="text"
-                onInputCapture={(e) => setNGOsignuimage(e.target.value)}
-              ></input>
-              <div>Tag</div>
-              <input
-                type="text"
-                onInputCapture={(e) => setNGOsigntag(e.target.value)}
-              ></input>
-            </div>
-            <div className="formFields">
-              <button className="submit" onClick={submitNGOsignup}>
+              <button  type="button" class="btn btn-warning  btn-lg" onClick={submitNGOsignup}>
                 SUBMIT
               </button>
             </div>
-            <div className="formFields divertingText">
-              Already have an account?{" "}
-              <a onClick={toggleposition} style={{ cursor: "pointer" }}>
-                Login Now
-              </a>
-            </div>
           </form>
+          <div className="formFields divertingText">
+            Already have an account?{" "}
+            <a onClick={toggleposition} style={{ cursor: "pointer" }}>
+              Login Now
+            </a>
+          </div>
         </div>
       </div>
     </div>

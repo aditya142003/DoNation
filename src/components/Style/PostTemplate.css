@@ -4,8 +4,16 @@
   justify-content: space-between;
   padding: 15px;
   width: 88vw;
+  border-bottom: 2px solid lightgrey;
+  padding-bottom: 30px;
 }
 
+.postContainer{
+  padding:20px
+}
+.detailHolder{
+  margin-bottom: 30px;
+}
 .postTemplate {
   width: 70%;
 }
@@ -18,7 +26,9 @@
   cursor: pointer;
   font-size: 15px;
 }
-.textoverflow {
+small.textoverflow {
+  margin-top: 10px;
+  margin-bottom: 20px;
   overflow: hidden;
 text-overflow: ellipsis;
 display: -webkit-box;

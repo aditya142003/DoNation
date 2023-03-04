@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, updateDoc, getDoc, doc } from "firebase/firestore";
 import "./Style/NgoAdmin.css";
+import Loading from "./Loading";
 import {
   getDatabase,
   ref,
@@ -30,11 +31,14 @@ function NgoAdmin() {
   const [ngoCampaigns, setngoCampaigns] = useState(0);
   const [listings, setlistings] = useState([]);
   const [totaldonation, settotaldonation] = useState([]);
+  const [loading, setloading] = useState(false);
+
 
   const firestore = getFirestore();
   const ngoRef = doc(firestore, "ngo", ngoUID);
 
   const getNgoData = async () => {
+    setloading(true);
     const docSnap = await getDoc(ngoRef);
     if (docSnap.exists()) {
       const ngoDetails = docSnap.data();
@@ -43,6 +47,7 @@ function NgoAdmin() {
       setngoCampaigns(ngoDetails.campaigns);
       settotaldonation(ngoDetails.totalDonations);
       console.log(ngoDetails);
+      setloading(false);
       // console.log(ngoCampaigns.length);
     } else {
       console.log("No such document!");
@@ -73,6 +78,7 @@ function NgoAdmin() {
             if (camp.volunteers) {
               // if (camp.volunteers.deliverd) {
               camp.volunteers.forEach((vol) => {
+                vol.campaign = camp;
                 temp.push(vol);
               });
               // }
@@ -88,25 +94,33 @@ function NgoAdmin() {
     navigate("/AlertBoard");
   }
   return (
+    !loading?
     <div>
       <div className="titlecontainer">
-        <div className="pageHeading">NGO Admin</div>
-        <div className="pagengo">
-          <div>{ngoname}</div>
+        <div className="pageHeading1">NGO Admin</div>
+        <div class="triangle-down"></div>
+       
+       <div className="headerRightHolder">
+
+       <div className="ngoAbout">
+          <div>Hi,{ngoname}</div>
           <div>{ngoemail}</div>
         </div>
+        <button onClick={logout} type="button" class="btn btn-warning">Logout</button>
+       </div>
+
       </div>
       <div className="AdminBoxesContainer">
         <div className="AdminBoxes">
-          <div>Total Campaigns</div>
-          <div>{ngoCampaigns.length}</div>
+          <h3 className="heading">Total Campaigns</h3>
+          <h4  className="data">{ngoCampaigns.length}</h4>
         </div>
         <div className="AdminBoxes">
-          <div>Total Donations</div>
-          <div>{totaldonation}</div>
+          <h3 className="heading">Total Donations</h3>
+          <h4 className="data">{totaldonation}</h4>
         </div>
         <div className="AdminBoxes">
-          <div>NGO Admin</div>
+          <h3 className="heading">NGO Admin</h3>
           <button className="Veriftbtn" onClick={Taphandle}>
             Tap to view
           </button>
@@ -115,45 +129,36 @@ function NgoAdmin() {
       <div className="recentMainContainer">
         <div className="recentContainer">
           <div className="recentContainerTitle">
-            <b>Recent Activity</b>
+            <h3 className="heading">Recent Activity</h3>
           </div>
           <div className="col-md-4 ">
             {listings?.map((element) => {
               return (
                 <div className="userTemplateContainer">
                   <div className="userTemplate">
-                    <div>{element.name}</div>
-                    <p className="textoverflow">{element.email}</p>
-                  </div>
-                  {!element.delivered && (
-                    <div className="Verify">
-                      <button onClick={handleClick} className="logoutbtn">
-                        Verify
+                    <h5>{element.name} donated {element.amount} !</h5>
+                    <small className="text-muted">Campaign - {element.campaign.title}</small>
+                    {!element.delivered && (
+                      <button onClick={handleClick} type="button" className="btn btn-warning">
+                        Mark As Delivered
                       </button>
-                    </div>
                   )}
+                  </div>
+                  
                 </div>
               );
             })}
           </div>
         </div>
-        <div className="optionsContainer">
-          <b>More</b>
-          <div>Edit Profile</div>
-          <div>Setting</div>
-          <div>Inbox</div>
-          <div>
-            <button
-              onClick={logout}
-              style={{ marginTop: "20px" }}
-              className="logoutbtn"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
+
       </div>
     </div>
+    :
+    <div className="loaderContainer">
+        <Loading/>
+        <h3>Loading....</h3>
+    </div>
+   
   );
 }
 
