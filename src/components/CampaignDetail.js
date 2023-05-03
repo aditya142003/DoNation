@@ -6,7 +6,7 @@ import {
   doc,
   increment,
 } from "firebase/firestore";
-import "./Style/Post.css";
+import "./Style/CampaignDetail.css";
 
 import {
   getDatabase,
@@ -16,6 +16,7 @@ import {
   push,
   update,
 } from "firebase/database";
+import db from "../Firebase/config";
 
 function Post() {
   const [campaigndeatil, setcampaigndeatil] = useState(null);
@@ -30,39 +31,36 @@ function Post() {
   }, []);
 
   const campaignid = window.location.search.split("?")[1];
-  const db = getDatabase();
-
+  const CampaignRef = doc(db, "Campaign", campaignid);
   const getNgoData = async () => {
-    const reference = ref(db, `campaign/${campaignid}`);
-    onValue(reference, (snapshot) => {
-      setcampaigndeatil(snapshot.val());
-      if (snapshot.val().volunteers) {
-        console.warn(snapshot.val().volunteers);
-        setcampaignvolunteers(snapshot.val().volunteers);
-      }
-    });
+    const docSnap = await getDoc(CampaignRef);
+    if (docSnap.exists()) {
+      const Campaign = docSnap.data();
+      setcampaigndeatil(Campaign);
+    } else {
+      console.log("No such Campaign!");
+    }
   };
+  console.log(campaigndeatil)
 
-  async function handleVerify(uid, amount,donationId) {
+  async function handleVerify(uid, amount, donationId) {
     const reference = ref(db, `campaign/${campaignid}/volunteers`);
     const userRef = doc(firestore, "mobileUsers", uid);
     const timeStamp = new Date().getTime();
-    const userSnap = await getDoc(userRef)
-    let userDonationsNew = []
-    let user = userSnap.data()
-    let userDonations = JSON.parse(user.donations)
+    const userSnap = await getDoc(userRef);
+    let userDonationsNew = [];
+    let user = userSnap.data();
+    let userDonations = JSON.parse(user.donations);
 
-    userDonations.forEach(donation=>{
-      if(donation.donationId==donationId){
+    userDonations.forEach((donation) => {
+      if (donation.donationId == donationId) {
         donation.delivered = true;
-        donation.deliveredOn = timeStamp
-        userDonationsNew.push(donation)
-      }else{
-        userDonationsNew.push(donation)
+        donation.deliveredOn = timeStamp;
+        userDonationsNew.push(donation);
+      } else {
+        userDonationsNew.push(donation);
       }
-    })
-
-   
+    });
 
     let temp = [];
     onValue(reference, (snapshot) => {
@@ -71,7 +69,9 @@ function Post() {
       });
     });
 
-    const userIndex = temp.findIndex((user) => user.uid == uid && user.donationId==donationId);
+    const userIndex = temp.findIndex(
+      (user) => user.uid == uid && user.donationId == donationId
+    );
     if (userIndex !== -1) {
       const updates = {};
       updates["/campaign/" + campaignid + "/amountRec"] = parseInt(
@@ -82,13 +82,14 @@ function Post() {
       ] = true;
       updates[
         "/campaign/" + campaignid + "/volunteers/" + userIndex + "/deliveredOn"
-      ] = timeStamp
+      ] = timeStamp;
 
       await updateDoc(ngoRef, { totalDonations: increment(amount) });
-      if(userDonationsNew.length==userDonations.length){
-        await updateDoc(userRef,{donations:JSON.stringify(userDonationsNew)})
+      if (userDonationsNew.length == userDonations.length) {
+        await updateDoc(userRef, {
+          donations: JSON.stringify(userDonationsNew),
+        });
       }
-      
 
       return update(ref(db), updates);
     }
@@ -97,14 +98,11 @@ function Post() {
   return (
     campaigndeatil !== null && (
       <div>
-         <div className="titlecontainer">
-        <div className="pageHeading1">Campaign Detail</div>
-        <div class="triangle-down"></div>
-
-       
-       
-      </div>
-        <div className="postContainer">
+        <div className="CampaignDetailtitlecontainer">
+          <div className="pageHeading1">Campaign Detail</div>
+          <div class="triangle-down"></div>
+        </div>
+        <div className="campaignDetailContainer">
           <div className="detailHolder">
             <h5>Title</h5>
             <small class="text-muted">{campaigndeatil.title}</small>
@@ -121,10 +119,12 @@ function Post() {
 
           <div className="detailHolder">
             <h5>Donations</h5>
-            <small class="text-muted">{campaigndeatil.amountRec}/{campaigndeatil.totalAmount} Items</small>
+            <small class="text-muted">
+              {campaigndeatil.received}/{campaigndeatil.quantity} Items
+            </small>
           </div>
 
-          <div className="detailHolder">
+          {/* <div className="detailHolder">
             <h5 >Volunteers - </h5>
            {campaignvolunteers && campaignvolunteers.length>0?
             campaignvolunteers.map((user,index)=>(
@@ -145,12 +145,8 @@ function Post() {
            }
       
          
-          </div>
-
-
-          
+          </div> */}
         </div>
-        
       </div>
     )
   );

@@ -1,14 +1,14 @@
-.createPosttitlecontainer {
+.CreateCampaigntitlecontainer {
   display: flex;
   justify-content: space-between;
 }
-.createPostpageHeading {
+.CreateCampaignpageHeading {
   background-color: #f3c222;
   width: 200px;
   color: white;
   font-size: 23px;
 }
-.createPostdonationContainer {
+.CreateCampaigndonationContainer {
   height: 80vh;
   width: 70%;
   box-shadow: 0em 0em 1em 0em hsl(0deg 0% 78%);
@@ -19,12 +19,12 @@
   margin-top: 30px;
   border-radius: 8px;
 }
-.createPostMainConatiner {
+.CreateCampaignMainConatiner {
   width: 100%;
   height: 100%;
   font-size: 30px;
 }
-.createPostMainContainer {
+.CreateCampaignMainContainer {
   background-color: white;
   width: 50vw;
   display: flex;
@@ -36,20 +36,20 @@
   transition: 0.5s ease;
   z-index: 1;
 }
-.createPostformContainer {
+.CreateCampaignformContainer {
   width: 70%;
   height: 70%;
 }
-.createPostformFields {
+.CreateCampaignformFields {
   padding: 25px;
   padding-top: 0px;
   
 }
-.createPostformFields > div {
+.CreateCampaignformFields > div {
   justify-content: space-between;
   padding-bottom: 11px;
 }
-.createPostformFields > input {
+.CreateCampaignformFields > input {
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
@@ -58,7 +58,7 @@
   font-size: 20px;
   color: hsl(0, 0%, 40%);
 }
-.createPostformFields > input:focus {
+.CreateCampaignformFields > input:focus {
   outline: none;
 }
 
@@ -88,6 +88,6 @@
   box-shadow: 0 0.5em 0.5em -0.4em hsl(0, 0%, 40%);
   transform: translateY(-0.25em);
 }
-.createPostformHeading {
+.CreateCampaignformHeading {
   font-size: 35px;
 }

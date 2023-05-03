@@ -1,19 +1,19 @@
 import React from "react";
-import "./Style/PostTemplate.css";
+import "./Style/CurrentCampaign.css";
 import { useNavigate } from "react-router-dom";
 
-function PostOverviewTemplate(props) {
+function CurrentCampaign(props) {
   let campaignid = props.campaignId;
   const navigate = useNavigate();
   function handleView(e) {
-    navigate(`/Post?${campaignid}`);
+    navigate(`/CampaignDetail?${campaignid}`);
   }
 
   let percent = (props.amountRec / props.totalAmount) * 100;
 
   return (
-    <div key={campaignid} className="postTemplateContainer">
-      <div className="postTemplate">
+    <div key={campaignid} className="CurrentCampaignContainer">
+      <div className="CurrentCampaign">
         <b>{props.title}</b>
         <small class="text-muted textoverflow">{props.description}</small>
         <div>
@@ -42,4 +42,4 @@ function PostOverviewTemplate(props) {
   );
 }
 
-export default PostOverviewTemplate;
+export default CurrentCampaign;

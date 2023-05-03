@@ -1,99 +1,56 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Style/LoginPage.css";
+import "./Style/AuthPage.css";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import db from "../Firebase/config";
 
-function LoginPage() {
+function NgoAuth() {
   const auth = getAuth();
-  const db = getFirestore();
-
+  const navigate = useNavigate();
   const actionCodeSettings = {
-    url: "https://donationweb.web.app/",
+    url: "https://donation-web-ideathon.web.app/",
     handleCodeInApp: true,
-    iOS: { bundleId: "com.donation.app" },
-    android: {
-      packageName: "com.donation.app",
-      installApp: true,
-      minimumVersion: "12",
-    },
-    dynamicLinkDomain: "donationweb.page.link",
   };
 
-  const navigate = useNavigate();
-  //variables from ngo login
-  const [loginemail, setloginemail] = useState();
-  const [loginpassword, setloginpassword] = useState();
+  const [positionshift, setpositionshift] = useState(0);
+  const [NgoReg, setNgoReg] = useState({
+    name: "",
+    description: "",
+    lat: 0,
+    long: 0,
+    email: "",
+    password: "",
+    address: "",
+    image: "",
+    tag: "",
+  });
+  const [NgoLogin, setNgoLogin] = useState({ email: "", password: "" });
 
-  //variables from ngo signup
-  const [NGOsignupname, setNGOsignupname] = useState();
-  const [NGOsignupdescription, setNGOsignupdescription] = useState();
-  const [NGOsignuplan, setNGOsignuplan] = useState();
-  const [NGOsignuplong, setNGOsignuplong] = useState();
-  const [NGOsignupemail, setNGOsignupemail] = useState();
-  const [NGOsignuppassword, setNGOsignuppassword] = useState();
-  const [NGOsignupaddress, setNGOsignupaddress] = useState();
-  const [NGOsignuimage, setNGOsignuimage] = useState();
-  const [NGOsigntag, setNGOsigntag] = useState();
-  const [NGOsigntagarr, setNGOsigntagarr] = useState();
-
-  function saveNgo(user) {
-    const ngoRef = doc(db, "ngo", user.uid);
-    const ngouser = {
-      name: NGOsignupname,
-      address: NGOsignupaddress,
-      lat: NGOsignuplan,
-      long: NGOsignuplong,
-      image: NGOsignuimage,
-      totalDonations: 0,
-      email: NGOsignupemail,
-      tag: NGOsigntagarr,
-      description: NGOsignupdescription,
-      uid: user.uid,
-      campaigns: [],
-      createdAt: new Date().getTime(),
-      updatedAt: new Date().getTime(),
-    };
-    setDoc(ngoRef, ngouser)
-      .then(() => {
-        //setModalVisible(false)
-        console.log("Document written with ID: ", user.uid);
-
-        setpositionshift(0);
-      })
-      .catch((error) => {
-        alert("Register", `${error}`);
-        console.log(error);
-      });
-  }
-
-  //functions to control ngo signup
-  function submitNGOsignup() {
-    setNGOsigntagarr(NGOsigntag.split(","));
-
+  const handleReg = () => {
     if (
-      NGOsignupname &&
-      NGOsignupdescription &&
-      NGOsignuplan &&
-      NGOsignuplong &&
-      NGOsignupemail &&
-      NGOsignuppassword &&
-      NGOsignupaddress &&
-      NGOsignuimage &&
-      NGOsigntagarr
+      NgoReg.name &&
+      NgoReg.address &&
+      NgoReg.lat &&
+      NgoReg.long &&
+      NgoReg.image &&
+      NgoReg.email &&
+      NgoReg.tag &&
+      NgoReg.description
     ) {
-      createUserWithEmailAndPassword(auth, NGOsignupemail, NGOsignuppassword)
+      console.log(NgoReg)
+      createUserWithEmailAndPassword(auth, NgoReg.email, NgoReg.password)
         .then((userCred) => {
           const user = userCred.user;
           sendEmailVerification(user, actionCodeSettings)
             .then((res) => {
               alert("Send Succeful");
-              saveNgo(user);
+              saveNgo(user, NgoReg);
             })
             .catch((err) => {
               alert("Error in send");
@@ -105,52 +62,69 @@ function LoginPage() {
           console.log(err);
         });
     }
-  }
+    function saveNgo(user, NgoReg) {
+      const NgoRef = doc(db, "NGO", user.uid);
+      const Ngouser = {
+        uid: user.uid,
+        name: NgoReg.name,
+        address: NgoReg.address,
+        lat: NgoReg.lat,
+        long: NgoReg.long,
+        image: NgoReg.image,
+        email: NgoReg.email,
+        tag: NgoReg.tag,
+        description: NgoReg.description,
+        createdAt: new Date().getTime(),
+      };
+      setDoc(NgoRef, Ngouser)
+        .then(() => {
+          console.log("Document written with ID: ", user.uid);
+          setpositionshift(0);
+        })
+        .catch((error) => {
+          alert("Register", `${error}`);
+          console.log(error);
+        });
+    }
+  };
 
-  //function t o control login
-  function submitlogin(e) {
+  function handleLogin(e) {
     e.preventDefault();
-    if (loginemail && loginpassword) {
-      signInWithEmailAndPassword(auth, loginemail, loginpassword)
+    if (NgoLogin.email && NgoLogin.password) {
+      signInWithEmailAndPassword(auth, NgoLogin.email, NgoLogin.password)
         .then((userCredential) => {
           const user = userCredential.user;
-
           if (!user.emailVerified) {
             alert("Please verify your email");
           } else {
             localStorage.setItem("uid", user.uid);
-            console.log(user.uid);
             localStorage.setItem("loggedIn", true);
-            navigate("/NgoAdmin");
+            navigate("/DashBoard");
           }
         })
         .catch((error) => {
           const errorCode = error.code;
-          if(errorCode=="auth/invalid-email"){
-            alert("Invalid email, please try again !")
-          }else if(errorCode == "auth/wrong-password"){
-            alert("Wrong password, please try again !")
-          }else if(errorCode == "auth/user-not-found"){
-            alert("No user registered with this email !")
-          }else{
-            alert('Something went wrong !')
+          if (errorCode == "auth/invalid-email") {
+            alert("Invalid email, please try again !");
+          } else if (errorCode == "auth/wrong-password") {
+            alert("Wrong password, please try again !");
+          } else if (errorCode == "auth/user-not-found") {
+            alert("No user registered with this email !");
+          } else {
+            alert("Something went wrong !");
           }
-          console.log(error)
-          // alert(`${error}`);
+          console.log(error);
         });
     }
   }
 
-  const [positionshift, setpositionshift] = useState(0);
-  function toggleposition() {
+  const toggleposition = () => {
     if (positionshift === 0) {
       setpositionshift(-25);
-      console.log(positionshift);
     } else {
       setpositionshift(0);
-      console.log(positionshift);
     }
-  }
+  };
 
   return (
     <div className="parentContainer">
@@ -169,18 +143,26 @@ function LoginPage() {
               <input
                 type="email"
                 spellCheck="false"
-                onInputCapture={(e) => setloginemail(e.target.value)}
+                onInputCapture={(e) =>
+                  setNgoLogin({ ...NgoLogin, email: e.target.value })
+                }
               ></input>
             </div>
             <div className="formFields">
               <h4>Password</h4>
               <input
                 type="password"
-                onInputCapture={(e) => setloginpassword(e.target.value)}
+                onInputCapture={(e) =>
+                  setNgoLogin({ ...NgoLogin, password: e.target.value })
+                }
               ></input>
             </div>
             <div className="formFields">
-              <button type="button" class="btn btn-warning  btn-lg" onClick={submitlogin}>
+              <button
+                type="button"
+                class="btn btn-warning  btn-lg"
+                onClick={handleLogin}
+              >
                 SUBMIT
               </button>
             </div>
@@ -207,14 +189,18 @@ function LoginPage() {
                   <h4>NGO Name</h4>
                   <input
                     type="text"
-                    onInputCapture={(e) => setNGOsignupname(e.target.value)}
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, name: e.target.value })
+                    }
                   ></input>
                 </div>
                 <div>
                   <h4>Address</h4>
                   <input
                     type="text"
-                    onInputCapture={(e) => setNGOsignupaddress(e.target.value)}
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, address: e.target.value })
+                    }
                   ></input>
                 </div>
               </div>
@@ -226,7 +212,9 @@ function LoginPage() {
                   <input
                     type="email"
                     spellCheck="false"
-                    onInputCapture={(e) => setNGOsignupemail(e.target.value)}
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, email: e.target.value })
+                    }
                   ></input>
                 </div>
                 <div>
@@ -235,7 +223,7 @@ function LoginPage() {
                     type="text"
                     spellCheck="false"
                     onInputCapture={(e) =>
-                      setNGOsignupdescription(e.target.value)
+                      setNgoReg({ ...NgoReg, description: e.target.value })
                     }
                   ></input>
                 </div>
@@ -248,7 +236,9 @@ function LoginPage() {
                   <input
                     type="number"
                     step="any"
-                    onInputCapture={(e) => setNGOsignuplan(e.target.value)}
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, lat: e.target.value })
+                    }
                   ></input>
                 </div>
                 <div>
@@ -256,7 +246,9 @@ function LoginPage() {
                   <input
                     type="number"
                     step="any"
-                    onInputCapture={(e) => setNGOsignuplong(e.target.value)}
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, long: e.target.value })
+                    }
                   ></input>
                 </div>
               </div>
@@ -267,14 +259,18 @@ function LoginPage() {
                   <h4>Image</h4>
                   <input
                     type="text"
-                    onInputCapture={(e) => setNGOsignuimage(e.target.value)}
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, image: e.target.value })
+                    }
                   ></input>
                 </div>
                 <div>
                   <h4>Tag</h4>
                   <input
                     type="text"
-                    onInputCapture={(e) => setNGOsigntag(e.target.value)}
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, tag: e.target.value })
+                    }
                   ></input>
                 </div>
               </div>
@@ -283,12 +279,18 @@ function LoginPage() {
               <h4>Password</h4>
               <input
                 type="password"
-                onInputCapture={(e) => setNGOsignuppassword(e.target.value)}
+                onInputCapture={(e) =>
+                  setNgoReg({ ...NgoReg, password: e.target.value })
+                }
               ></input>
             </div>
 
             <div className="formFields">
-              <button  type="button" class="btn btn-warning  btn-lg" onClick={submitNGOsignup}>
+              <button
+                type="button"
+                class="btn btn-warning  btn-lg"
+                onClick={handleReg}
+              >
                 SUBMIT
               </button>
             </div>
@@ -305,4 +307,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default NgoAuth;

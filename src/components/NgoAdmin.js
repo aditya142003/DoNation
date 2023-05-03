@@ -1,164 +1,89 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { getFirestore, updateDoc, getDoc, doc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import CurrentCampaign from "./CurrentCampaign";
 import "./Style/NgoAdmin.css";
+import { useNavigate } from "react-router-dom";
+import { getDoc, doc, collection, onSnapshot } from "firebase/firestore";
+import db from "../Firebase/config";
 import Loading from "./Loading";
-import {
-  getDatabase,
-  ref,
-  onValue,
-  set,
-  orderByValue,
-  orderByChild,
-  orderByKey,
-  orderByPriority,
-  child,
-  remove,
-} from "firebase/database";
 
 function NgoAdmin() {
-  const db = getDatabase();
-  useEffect(() => {
-    getNgoData();
-    getListing();
-  }, []);
-
+  const NgoUID = localStorage.getItem("uid");
   const navigate = useNavigate();
-  const ngoUID = localStorage.getItem("uid");
-
-  const [ngoemail, setngoemail] = useState();
-  const [ngoname, setngoname] = useState();
-  const [ngoCampaigns, setngoCampaigns] = useState(0);
-  const [listings, setlistings] = useState([]);
-  const [totaldonation, settotaldonation] = useState([]);
+  const [CampaignsFetched, setCampaignsFetched] = useState([]);
+  const [NgoDetails, setNgoDetails] = useState({});
   const [loading, setloading] = useState(false);
 
+  useEffect(() => {
+    getCampaigns();
+    getNgoData();
+  }, []);
 
-  const firestore = getFirestore();
-  const ngoRef = doc(firestore, "ngo", ngoUID);
+  const CampaignRef = collection(db, "Campaign");
+  const getCampaigns = async () => {
+    setloading(true);
+    onSnapshot(CampaignRef, (camps) => {
+      const items = [];
+      camps.forEach((data) => {
+        items.push(data.data());
+      });
+      setCampaignsFetched(items);
+      setloading(false);
+    });
+  };
 
+  const NgoRef = doc(db, "NGO", NgoUID);
   const getNgoData = async () => {
     setloading(true);
-    const docSnap = await getDoc(ngoRef);
+    const docSnap = await getDoc(NgoRef);
+    setloading(false);
     if (docSnap.exists()) {
-      const ngoDetails = docSnap.data();
-      setngoemail(ngoDetails.email);
-      setngoname(ngoDetails.name);
-      setngoCampaigns(ngoDetails.campaigns);
-      settotaldonation(ngoDetails.totalDonations);
-      console.log(ngoDetails);
-      setloading(false);
-      // console.log(ngoCampaigns.length);
+      const ngo = docSnap.data();
+      setNgoDetails(ngo);
     } else {
-      console.log("No such document!");
+      console.log("No such Ngo!");
     }
   };
 
-  function Taphandle() {
-    navigate("/AlertBoard");
-  }
-  function acceptHandle() {
-    navigate("/AcceptBoard");
-  }
-  function logout() {
-    localStorage.setItem("loggedIn", false);
-    localStorage.setItem("uid", null);
-    navigate("/");
+  function createhandle() {
+    navigate("/CreateCampaign");
   }
 
-  const getListing = async () => {
-    let temp = [];
-    let donations = 0;
-    const reference = ref(db, "campaign/");
-    onValue(reference, (snapshot) => {
-      if (snapshot.val()) {
-        const values = Object.values(snapshot.val());
-        values.forEach((camp, index) => {
-          if (camp.ngoUID == ngoUID) {
-            if (camp.volunteers) {
-              // if (camp.volunteers.deliverd) {
-              camp.volunteers.forEach((vol) => {
-                vol.campaign = camp;
-                temp.push(vol);
-              });
-              // }
-            }
-          }
-        });
-      }
-      setlistings(temp);
-    });
-  };
-  console.log(listings);
-  function handleClick() {
-    navigate("/AlertBoard");
-  }
-  return (
-    !loading?
+  return !loading ? (
     <div>
       <div className="titlecontainer">
         <div className="pageHeading1">NGO Admin</div>
         <div class="triangle-down"></div>
-       
-       <div className="headerRightHolder">
 
-       <div className="ngoAbout">
-          <div>Hi,{ngoname}</div>
-          <div>{ngoemail}</div>
+        <div className="ngoAbout">
+          <div>Hi,{NgoDetails.name}</div>
+          <div>{NgoDetails.email}</div>
         </div>
-        <button onClick={logout} type="button" class="btn btn-warning">Logout</button>
-       </div>
-
       </div>
-      <div className="AdminBoxesContainer">
-        <div className="AdminBoxes">
-          <h3 className="heading">Total Campaigns</h3>
-          <h4  className="data">{ngoCampaigns.length}</h4>
-        </div>
-        <div className="AdminBoxes">
-          <h3 className="heading">Total Donations</h3>
-          <h4 className="data">{totaldonation}</h4>
-        </div>
-        <div className="AdminBoxes">
-          <h3 className="heading">NGO Admin</h3>
-          <button className="Veriftbtn" onClick={Taphandle}>
-            Tap to view
+      <div className="donationContainer">
+        <div className="donationContainerTitle">
+          <div>All Campaigns</div>
+          <button type="button" class="btn btn-warning" onClick={createhandle}>
+            Create New +
           </button>
         </div>
-      </div>
-      <div className="recentMainContainer">
-        <div className="recentContainer">
-          <div className="recentContainerTitle">
-            <h3 className="heading">Recent Activity</h3>
-          </div>
-          <div className="col-md-4 ">
-            {listings?.map((element) => {
-              return (
-                <div className="userTemplateContainer">
-                  <div className="userTemplate">
-                    <h5>{element.name} donated {element.amount} !</h5>
-                    <small className="text-muted">Campaign - {element.campaign.title}</small>
-                    {!element.delivered && (
-                      <button onClick={handleClick} type="button" className="btn btn-warning">
-                        Mark As Delivered
-                      </button>
-                  )}
-                  </div>
-                  
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
+        {CampaignsFetched.map((element) => {
+          return (
+            <CurrentCampaign
+              campaignId={element.uid}
+              title={element.title}
+              description={element.description}
+              totalAmount={element.quantity}
+              amountRec={element.received}
+            />
+          );
+        })}
       </div>
     </div>
-    :
+  ) : (
     <div className="loaderContainer">
-        <Loading/>
-        <h3>Loading....</h3>
+      <Loading />
+      <h3>Loading....</h3>
     </div>
-   
   );
 }
 

@@ -1,4 +1,4 @@
-.postTemplateContainer {
+.CurrentCampaignContainer {
   margin: 10px;
   display: flex;
   justify-content: space-between;
@@ -14,7 +14,7 @@
 .detailHolder{
   margin-bottom: 30px;
 }
-.postTemplate {
+.CurrentCampaign {
   width: 70%;
 }
 .viewButton {

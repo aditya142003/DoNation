@@ -1,0 +1,187 @@
+.AdminBoxesContainer {
+  display: flex;
+}
+.loaderContainer{
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ .titlecontainer{
+
+  background-color: white;
+  box-shadow: 0em 0em 1em 0em hsl(0deg 0% 78%);
+ }
+
+
+.pageHeading1{
+  display: flex;
+  background-color: #f3c222;
+  width: 200px;
+  color: white;
+  font-size: 23px;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.triangle-down {
+  position: absolute;
+  left: 170px;
+	width: 0;
+	height: 0;
+	border-left: 30px solid transparent;
+	border-right: 30px solid transparent;
+	border-top: 65px solid #f3c222;
+}
+
+.ngoAbout{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-right: 20px;
+}
+
+small.text-muted{
+  font-size: 1rem;
+  margin: 0px;
+}
+
+.recentContainer {
+  height: 60vh;
+  width: 90%;
+  box-shadow: 0em 0em 1em 0em hsl(0deg 0% 78%);
+  border-radius: 10px;
+  border-color: 'lightgrey';
+  transform: translateY(-0.25em);
+  margin-left: 5%;
+  margin-right: auto;
+  margin-top: 30px;
+  font-size: 23px;
+  padding: 10px;
+  overflow-y: scroll;
+}
+.recentContainerTitle {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  font-size: 23px;
+}
+.AdminBoxes {
+  display: grid;
+  height: 20vh;
+  font-size: 23px;
+  width: 23%;
+  box-shadow: 0em 0em 1em 0em hsl(0deg 0% 78%);
+  border-radius: 10px;
+  border-bottom: 2px solid lightgrey;
+  transform: translateY(-0.25em);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.heading{
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #192655;
+}
+
+.AdminBoxes> .data{
+  font-size: 1.8rem;
+  color: #f3c222;
+}
+
+p.textoverflow{
+  font-size: 1.1rem;
+  color: 'grey';
+}
+
+.recentMainContainer {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid lightgrey;
+}
+.optionsContainer {
+  width: 10%;
+  height: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  font-size: 23px;
+}
+.Verify{
+margin-left: 600px;
+/* border-bottom-style: hidden; */
+background: #f3c222;
+border-radius: 10px;
+color: #ffffff;
+line-height: 33px;
+width: 100px;
+height: 50px;
+margin-top: 15px;
+}
+.Veriftbtn{
+  background-color: #f3c222;
+  border: transparent;
+  width: 150px;
+  height: 60px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+
+}
+.logoutbtn{
+  background-color: #f3c222;
+  border: transparent;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.headerRightHolder{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.userTemplateContainer{
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  width: 900px;
+  border-bottom: 2px solid lightgrey;
+}
+.userTemplate{
+  width: 70%;
+}
+.NgoData{
+  margin-top: 10px;
+  font-size: large;
+  margin-right: 5px;
+}
+.ngoemail{
+  margin-top: 5px;
+}
+.pagengo{
+  display: grid;
+  background-color: #f3c222;
+  width: 300px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}

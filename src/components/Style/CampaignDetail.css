@@ -12,24 +12,22 @@
   margin-top: 15px;
   margin-bottom: 10px;
 }
-
-
-.posttitlecontainer{
+.CampaignDetailtitlecontainer{
   display: flex;
   justify-content: space-between;
 }
-.postpageHeading{
+.CampaignDetailpageHeading{
   display: flex;
   background-color: #f3c222;
-  width: 320px;
-  height: 80px;
+  width: 200px;
   color: white;
-  font-size: 27px;
+  font-size: 23px;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
 }
-.postContainer{
+.campaignDetailContainer{
+  padding:20px;
   height: 80vh;
   width: 70%;
   box-shadow: 0em 0em 1em 0em hsl(0deg 0% 78%);
@@ -41,12 +39,12 @@
   overflow-y: scroll;
   border-radius: 10px;
 }
-.postContainerTitle{
+.CampaignDetailContainerTitle{
   padding: 19px;
   font-size: 21px;
   padding: 10px;
 }
-.postverifyButton{
+.CampaignDetailverifyButton{
   background-color: #f3c222;
   border: transparent;
   width: 100px;

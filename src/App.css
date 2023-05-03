@@ -4,10 +4,10 @@ html {
   padding: 0;
   overflow: hidden;
 }
-@font-face {
+/* @font-face {
   font-family: ProductSansRegular;
   src: url("./utils/Product-Sans-Regular.ttf");
-}
+} */
 
 body{
   margin: auto;

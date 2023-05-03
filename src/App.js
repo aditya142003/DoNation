@@ -1,18 +1,21 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import LoginPage from "./components/LoginPage";
-import CreatePost from "./components/CreatePost";
+import NgoAuth from "./components/NgoAuth";
+import CreateCampaign from "./components/CreateCampaign";
 import NgoAdmin from "./components/NgoAdmin";
 import DefaultRoute from "./components/DefaultRoute";
-import AlertBoard from "./components/AlertBoard";
-import Post from "./components/Post";
+import DashBoard from "./components/DashBoard";
+import CampaignDetail from "./components/CampaignDetail";
+import LandingPage from "./components/LandingPage";
+import VolunteerAuth from "./components/VolunteerAuth";
+import Home from "./components/Home";
 
 const FireBase = require("./Firebase/config");
 
 function App() {
   const [campaignid, setcampaignid] = useState();
-   console.log(localStorage.getItem("loggedIn"));
+  console.log(localStorage.getItem("loggedIn"));
 
   return (
     <div>
@@ -20,14 +23,17 @@ function App() {
         {/* <Route
           path="/"
           element={
-            localStorage.getItem("loggedIn") ? <NgoAdmin /> : <LoginPage />
+            localStorage.getItem("loggedIn") ? <NgoAdmin /> : <AuthPage />
           }
         ></Route> */}
-        <Route path="/" element={<LoginPage />}></Route>
-        <Route path="/AlertBoard" element={<AlertBoard />}></Route>
+        <Route path="/" element={<LandingPage />}></Route>
+        <Route path="/NgoAuth" element={<NgoAuth />}></Route>
+        <Route path="/VolunteerAuth" element={<VolunteerAuth />}></Route>
+        <Route path="/Home" element={<Home />}></Route>
+        <Route path="/DashBoard" element={<DashBoard />}></Route>
         <Route path="/NgoAdmin" element={<NgoAdmin />}></Route>
-        <Route path="/CreatePost" element={<CreatePost />}></Route>
-        <Route path="/Post" element={<Post />}></Route>
+        <Route path="/CreateCampaign" element={<CreateCampaign />}></Route>
+        <Route path="/CampaignDetail" element={<CampaignDetail />}></Route>
         <Route path="*" element={<DefaultRoute />} />
       </Routes>
     </div>
