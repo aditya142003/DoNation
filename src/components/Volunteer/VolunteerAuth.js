@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Style/AuthPage.css";
+// import "./Style/AuthPage.css";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -8,7 +8,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import db from "../Firebase/config";
+import db from "../../Firebase/config";
 
 function NgoAuth() {
   const auth = getAuth();
@@ -21,15 +21,13 @@ function NgoAuth() {
   const [positionshift, setpositionshift] = useState(0);
   const [NgoReg, setNgoReg] = useState({
     name: "",
-    description: "",
     lat: 0,
     long: 0,
     email: "",
     password: "",
     address: "",
-    image: "",
-    tag: "",
   });
+  console.log(NgoReg);
   const [NgoLogin, setNgoLogin] = useState({ email: "", password: "" });
 
   const handleReg = () => {
@@ -38,12 +36,9 @@ function NgoAuth() {
       NgoReg.address &&
       NgoReg.lat &&
       NgoReg.long &&
-      NgoReg.image &&
-      NgoReg.email &&
-      NgoReg.tag &&
-      NgoReg.description
+      NgoReg.email
     ) {
-      console.log(NgoReg)
+      console.log(NgoReg);
       createUserWithEmailAndPassword(auth, NgoReg.email, NgoReg.password)
         .then((userCred) => {
           const user = userCred.user;
@@ -63,17 +58,14 @@ function NgoAuth() {
         });
     }
     function saveNgo(user, NgoReg) {
-      const NgoRef = doc(db, "NGO", user.uid);
+      const NgoRef = doc(db, "Volunteer", user.uid);
       const Ngouser = {
         uid: user.uid,
         name: NgoReg.name,
         address: NgoReg.address,
         lat: NgoReg.lat,
         long: NgoReg.long,
-        image: NgoReg.image,
         email: NgoReg.email,
-        tag: NgoReg.tag,
-        description: NgoReg.description,
         createdAt: new Date().getTime(),
       };
       setDoc(NgoRef, Ngouser)
@@ -99,7 +91,7 @@ function NgoAuth() {
           } else {
             localStorage.setItem("uid", user.uid);
             localStorage.setItem("loggedIn", true);
-            navigate("/DashBoard");
+            navigate("/Home");
           }
         })
         .catch((error) => {
@@ -171,7 +163,7 @@ function NgoAuth() {
               <div>
                 <div>
                   <a onClick={toggleposition} style={{ cursor: "pointer" }}>
-                    Register Now as NGO
+                    Register Now as Volunteer
                   </a>
                 </div>
               </div>
@@ -182,7 +174,7 @@ function NgoAuth() {
       <div className="signupNGOContainer" style={{ left: `${positionshift}%` }}>
         <div className="formContainer">
           <form action="#">
-            <h4 className="formHeading">Signup NGO</h4>
+            <h4 className="formHeading">Signup Volunteer</h4>
             <div className="formFields">
               <div className="doubleinput">
                 <div>
@@ -217,16 +209,6 @@ function NgoAuth() {
                     }
                   ></input>
                 </div>
-                <div>
-                  <h4>Description</h4>
-                  <input
-                    type="text"
-                    spellCheck="false"
-                    onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, description: e.target.value })
-                    }
-                  ></input>
-                </div>
               </div>
             </div>
             <div className="formFields">
@@ -253,28 +235,7 @@ function NgoAuth() {
                 </div>
               </div>
             </div>
-            <div className="formFields">
-              <div className="doubleinput">
-                <div>
-                  <h4>Image</h4>
-                  <input
-                    type="text"
-                    onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, image: e.target.value })
-                    }
-                  ></input>
-                </div>
-                <div>
-                  <h4>Tag</h4>
-                  <input
-                    type="text"
-                    onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, tag: e.target.value })
-                    }
-                  ></input>
-                </div>
-              </div>
-            </div>
+
             <div className="formFields">
               <h4>Password</h4>
               <input

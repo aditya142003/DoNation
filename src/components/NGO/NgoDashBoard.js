@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDoc, doc, collection } from "firebase/firestore";
+import { getDoc, doc, collection, onSnapshot } from "firebase/firestore";
 import "./Style/DashBoard.css";
-import Loading from "./Loading";
-import db from "../Firebase/config";
+import Loading from "../CommonComp/Loading";
+import db from "../../Firebase/config";
 
 function DashBoard() {
   useEffect(() => {
     getNgoData();
-    // getCampaignData();
+    getCampaigns();
   }, []);
 
   const navigate = useNavigate();
   const NgoUID = localStorage.getItem("uid");
 
   const [NgoDetails, setNgoDetails] = useState({});
-  const [CampaignDetails, setCampaignDetails] = useState([]);
+  const [CampaignsFetched, setCampaignsFetched] = useState([]);
   const [loading, setloading] = useState(false);
+  const [totalDonation, settotalDonation] = useState(0);
 
   const NgoRef = doc(db, "NGO", NgoUID);
   const getNgoData = async () => {
@@ -31,7 +32,24 @@ function DashBoard() {
     }
   };
 
-  
+  const CampaignRef = collection(db, "Campaign");
+  const getCampaigns = async () => {
+    setloading(true);
+    onSnapshot(CampaignRef, (camps) => {
+      const items = [];
+      let totalD = 0;
+      camps.forEach((data) => {
+        console.log(data.data());
+        if (data.data().NgoId == NgoUID) {
+          items.push(data.data());
+          totalD = totalD + data.data().received;
+        }
+      });
+      settotalDonation(totalD);
+      setCampaignsFetched(items);
+      setloading(false);
+    });
+  };
 
   function Taphandle() {
     navigate("/NgoAdmin");
@@ -41,10 +59,6 @@ function DashBoard() {
     localStorage.setItem("loggedIn", false);
     localStorage.setItem("uid", null);
     navigate("/");
-  }
-
-  function handleClick() {
-    navigate("/AlertBoard");
   }
 
   return !loading ? (
@@ -66,11 +80,11 @@ function DashBoard() {
       <div className="AdminBoxesContainer">
         <div className="AdminBoxes">
           <h3 className="heading">Total Campaigns</h3>
-          <h4 className="data">{CampaignDetails.length}</h4>
+          <h4 className="data">{CampaignsFetched.length}</h4>
         </div>
         <div className="AdminBoxes">
           <h3 className="heading">Total Donations</h3>
-          <h4 className="data">Null</h4>
+          <h4 className="data">{totalDonation}</h4>
         </div>
         <div className="AdminBoxes">
           <h3 className="heading">NGO Admin</h3>

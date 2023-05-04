@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./Style/CreateCampaign.css";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import db from "../Firebase/config";
+import db from "../../Firebase/config";
 
 function CreateCampaign() {
   useEffect(() => {
     getNgoData();
   }, []);
-  const [loading, setloading] = useState(false);
   const [NgoDetails, setNgoDetails] = useState({});
   const [Campaign, setCampaign] = useState({
     title: "",

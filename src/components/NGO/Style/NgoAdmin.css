@@ -87,3 +87,40 @@ display: -webkit-box;
 -webkit-line-clamp: 2;
 -webkit-box-orient: vertical;
 }
+.CurrentCampaignContainer {
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  width: 88vw;
+  border-bottom: 2px solid lightgrey;
+  padding-bottom: 30px;
+}
+
+.postContainer{
+  padding:20px
+}
+.detailHolder{
+  margin-bottom: 30px;
+}
+.CurrentCampaign {
+  width: 70%;
+}
+.viewButton {
+  background-color: #f3c222;
+  border: transparent;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+}
+small.textoverflow {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}

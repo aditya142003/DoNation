@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
-import CurrentCampaign from "./CurrentCampaign";
 import "./Style/NgoAdmin.css";
+
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDoc, doc, collection, onSnapshot } from "firebase/firestore";
-import db from "../Firebase/config";
-import Loading from "./Loading";
+
+import db from "../../Firebase/config";
+import Loading from "../CommonComp/Loading";
 
 function NgoAdmin() {
   const NgoUID = localStorage.getItem("uid");
   const navigate = useNavigate();
+
   const [CampaignsFetched, setCampaignsFetched] = useState([]);
   const [NgoDetails, setNgoDetails] = useState({});
   const [loading, setloading] = useState(false);
@@ -24,7 +26,9 @@ function NgoAdmin() {
     onSnapshot(CampaignRef, (camps) => {
       const items = [];
       camps.forEach((data) => {
-        items.push(data.data());
+        if (data.data().NgoId == NgoUID) {
+          items.push(data.data());
+        }
       });
       setCampaignsFetched(items);
       setloading(false);
@@ -48,6 +52,10 @@ function NgoAdmin() {
     navigate("/CreateCampaign");
   }
 
+  function handleView(Camp) {
+    navigate(`/NgoCampaignDetail?${Camp}`);
+  }
+
   return !loading ? (
     <div>
       <div className="titlecontainer">
@@ -66,15 +74,42 @@ function NgoAdmin() {
             Create New +
           </button>
         </div>
-        {CampaignsFetched.map((element) => {
+        {CampaignsFetched.map((e) => {
           return (
-            <CurrentCampaign
-              campaignId={element.uid}
-              title={element.title}
-              description={element.description}
-              totalAmount={element.quantity}
-              amountRec={element.received}
-            />
+            <div key={e.campaignid} className="CurrentCampaignContainer">
+              <div className="CurrentCampaign">
+                <b>{e.title}</b>
+                <small class="text-muted textoverflow">{e.description}</small>
+                <div>
+                  {e.received} / {e.quantity}
+                </div>
+
+                <div class="progress">
+                  <div
+                    className="progress-bar"
+                    role="progressbar"
+                    style={{
+                      width: `${(e.received / e.quantity) * 100}%`,
+                      backgroundColor: "#f3c222",
+                    }}
+                    aria-valuenow={`${(e.received / e.quantity) * 100}`}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    onClick={(event) => handleView(e.uid, event)}
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
           );
         })}
       </div>
