@@ -49,13 +49,14 @@ function Post() {
       const items = [];
       Donation.forEach((data) => {
         items.push(data.data());
-
         onSnapshot(VolunteerRef, (Volunteer) => {
           const items2 = [];
           Volunteer.forEach((e) => {
-            if (data.data().volunteerId == e.data().uid) {
-              items2.push(e.data());
-            }
+            items.map((ele) => {
+              if (ele.volunteerId == e.data().uid) {
+                items2.push(e.data());
+              }
+            });
           });
           setvolunteerFetched(items2);
         });
@@ -69,7 +70,6 @@ function Post() {
     donationFetched.map((don) => {
       volunteerFetched.map((vol) => {
         if (don.volunteerId == vol.uid) {
-          console.log(vol.name);
           donobject = {
             name: vol.name,
             uid: don.uid,
@@ -82,18 +82,18 @@ function Post() {
     });
     setdonatorDetails(donarr);
   }
-
+  console.log(donatorDetails);
   function handleConfirm(don_uid, don_amount) {
     const volRef = doc(db, "Donation", `${don_uid}`);
     const capmRef = doc(db, "Campaign", `${campaigndeatil.uid}`);
+    let amre = parseInt(parseInt(campaigndeatil.received) + parseInt(don_amount));
     console.log(don_uid);
     setDoc(volRef, { confirmation: true }, { merge: true })
       .then(alert("updated"))
       .catch((err) => {
         console.log(err);
-      }).then(
-        setDoc(capmRef, { received: don_amount}, { merge: true })
-      )
+      })
+      .then(setDoc(capmRef, { received: amre }, { merge: true }));
     alert("done");
   }
 
@@ -135,7 +135,9 @@ function Post() {
                 {e.confirmation ? (
                   <></>
                 ) : (
-                  <button onClick={(event) => handleConfirm(e.uid,e.amount, event)}>
+                  <button
+                    onClick={(event) => handleConfirm(e.uid, e.amount, event)}
+                  >
                     Confirm
                   </button>
                 )}
