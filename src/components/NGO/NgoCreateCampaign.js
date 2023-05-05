@@ -3,6 +3,7 @@ import "./Style/CreateCampaign.css";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import db from "../../Firebase/config";
+import { uid } from "uid";
 
 function CreateCampaign() {
   useEffect(() => {
@@ -25,9 +26,10 @@ function CreateCampaign() {
 
   function submit(e) {
     e.preventDefault();
-    const NgoRef = doc(db, "Campaign", `${NgoUID}_${new Date().getTime()}`);
+    const uniqueId = uid();
+    const NgoRef = doc(db, "Campaign", uniqueId);
     const Ngouser = {
-      uid: `${NgoUID}_${new Date().getTime()}`,
+      uid: uniqueId,
       NgoId: NgoUID,
       title: Campaign.title,
       description: Campaign.description,

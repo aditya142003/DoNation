@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
 import db from "../../Firebase/config";
+import { uid } from "uid";
 
 function Post() {
   const [campaigndeatil, setcampaigndeatil] = useState(null);
@@ -44,16 +45,16 @@ function Post() {
 
   function handleDonation(e) {
     e.preventDefault();
-    const DonationRef = doc(
-      db,
-      "Donation",
-      `${campaigndeatil.uid}_${new Date().getTime()}`
-    );
+    const uniqueId = uid();
+    const DonationRef = doc(db, "Donation", uniqueId);
     const Donationuser = {
-      uid: `${campaigndeatil.uid}_${new Date().getTime()}`,
-      NgoId: campaigndeatil.uid,
+      uid: uniqueId,
+      NgoId: campaigndeatil.NgoId,
       volunteerId: VolunteerDetails.uid,
-      amount: amount,
+      volname: VolunteerDetails.name,
+      campaignId: campaigndeatil.uid,
+      campaigntitle: campaigndeatil.title,
+      amount: parseInt(amount),
       confirmation: false,
       createdAt: new Date().getTime(),
     };

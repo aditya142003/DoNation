@@ -9,6 +9,7 @@ function DashBoard() {
   useEffect(() => {
     getNgoData();
     getCampaigns();
+    getDonation();
   }, []);
 
   const navigate = useNavigate();
@@ -18,6 +19,9 @@ function DashBoard() {
   const [CampaignsFetched, setCampaignsFetched] = useState([]);
   const [loading, setloading] = useState(false);
   const [totalDonation, settotalDonation] = useState(0);
+  const [donationFetched, setdonationFetched] = useState([]);
+  const [volunteerFetched, setvolunteerFetched] = useState([]);
+  const [curcamp, setcurcamp] = useState({});
 
   const NgoRef = doc(db, "NGO", NgoUID);
   const getNgoData = async () => {
@@ -39,7 +43,6 @@ function DashBoard() {
       const items = [];
       let totalD = 0;
       camps.forEach((data) => {
-        console.log(data.data());
         if (data.data().NgoId == NgoUID) {
           items.push(data.data());
           totalD = totalD + data.data().received;
@@ -51,8 +54,38 @@ function DashBoard() {
     });
   };
 
+  const DonationRef = collection(db, "Donation");
+  const VolunteerRef = collection(db, "Volunteer");
+  const getDonation = async () => {
+    onSnapshot(DonationRef, (Donation) => {
+      const items = [];
+      Donation.forEach((data) => {
+        if (data.data().NgoId == NgoUID) {
+          items.push(data.data());
+        }
+
+        onSnapshot(VolunteerRef, (Volunteer) => {
+          const items2 = [];
+          Volunteer.forEach((e) => {
+            items.map((ele) => {
+              if (ele.volunteerId == e.data().uid) {
+                items2.push(e.data());
+              }
+            });
+          });
+          setvolunteerFetched(items2);
+        });
+        setdonationFetched(items);
+      });
+    });
+  };
+
   function Taphandle() {
     navigate("/NgoAdmin");
+  }
+
+  function handleDetail(Camp) {
+    navigate(`/NgoCampaignDetail?${Camp}`);
   }
 
   function logout() {
@@ -98,31 +131,37 @@ function DashBoard() {
           <div className="recentContainerTitle">
             <h3 className="heading">Recent Activity</h3>
           </div>
-          <div className="col-md-4 ">
-            {/* {CampaignDetails?.map((element) => {
-              return (
-                <div className="userTemplateContainer">
-                  <div className="userTemplate">
-                    <h5>
-                      {element.name} donated {element.amount} !
-                    </h5>
-                    <small className="text-muted">
-                      Campaign - {element.campaign.title}
-                    </small>
-                    {!element.delivered && (
+          {donationFetched.map((donations) => {
+            return (
+              <div>
+                <div>{donations.campaigntitle}</div>
+                <div>{donations.volname}</div>
+                <div>{donations.amount}</div>
+                <div>
+                  {!donations.confirmation ? (
+                    <button
+                      onClick={(event) =>
+                        handleDetail(donations.campaignId, event)
+                      }
+                    >
+                      Detail
+                    </button>
+                  ) : (
+                    <div>
                       <button
-                        onClick={handleClick}
-                        type="button"
-                        className="btn btn-warning"
+                        onClick={(event) =>
+                          handleDetail(donations.campaignId, event)
+                        }
                       >
-                        Mark As Delivered
+                        Detail
                       </button>
-                    )}
-                  </div>
+                      <div>Confirmed</div>
+                    </div>
+                  )}
                 </div>
-              );
-            })} */}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

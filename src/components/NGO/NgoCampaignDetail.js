@@ -48,7 +48,9 @@ function Post() {
     onSnapshot(DonationRef, (Donation) => {
       const items = [];
       Donation.forEach((data) => {
-        items.push(data.data());
+        if (data.data().campaignId == campaignid) {
+          items.push(data.data());
+        }
         onSnapshot(VolunteerRef, (Volunteer) => {
           const items2 = [];
           Volunteer.forEach((e) => {
@@ -81,13 +83,15 @@ function Post() {
       });
     });
     setdonatorDetails(donarr);
+    // console.log(donarr);
   }
   console.log(donatorDetails);
   function handleConfirm(don_uid, don_amount) {
     const volRef = doc(db, "Donation", `${don_uid}`);
     const capmRef = doc(db, "Campaign", `${campaigndeatil.uid}`);
-    let amre = parseInt(parseInt(campaigndeatil.received) + parseInt(don_amount));
-    console.log(don_uid);
+    let amre =
+      (campaigndeatil.received ? campaigndeatil.received : 0) + don_amount;
+    console.log(amre);
     setDoc(volRef, { confirmation: true }, { merge: true })
       .then(alert("updated"))
       .catch((err) => {
