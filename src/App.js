@@ -15,6 +15,8 @@ import VolunteerAuth from "./components/Volunteer/VolunteerAuth";
 import Home from "./components/Volunteer/VolunteerHome";
 import VolunteerCampaignDetail from "./components/Volunteer/VolunteerCampaignDetail";
 import VolunteerProfile from "./components/Volunteer/VolunteerProfile";
+import Guest from "./components/CommonComp/Guest";
+import GuestDetail from "./components/CommonComp/GuestDetail";
 
 const FireBase = require("./Firebase/config");
 
@@ -26,6 +28,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="*" element={<DefaultRoute />} />
+        <Route path="/Guest" element={<Guest/>}></Route>
+        <Route path="/GuestDetail" element={<GuestDetail/>}></Route>
 
         <Route path="/NgoAuth" element={<NgoAuth />}></Route>
         <Route path="/DashBoard" element={<DashBoard />}></Route>

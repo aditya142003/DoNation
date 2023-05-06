@@ -6,78 +6,42 @@ import { getDoc, doc, collection, onSnapshot } from "firebase/firestore";
 import db from "../../Firebase/config";
 import Loading from "./../CommonComp/Loading";
 
-function Home() {
-  const VolunteerID = localStorage.getItem("uid");
+function Guest() {
   const navigate = useNavigate();
   const [CampaignsFetched, setCampaignsFetched] = useState([]);
-  const [VolunteerDetails, setVolunteerDetails] = useState({});
-  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     getCampaigns();
-    getVolunteerData();
   }, []);
 
   const CampaignRef = collection(db, "Campaign");
   const getCampaigns = async () => {
-    setloading(true);
     onSnapshot(CampaignRef, (camps) => {
       const items = [];
       camps.forEach((data) => {
         items.push(data.data());
       });
       setCampaignsFetched(items);
-      setloading(false);
     });
   };
 
-  const VolunteerRef = doc(db, "Volunteer", VolunteerID);
-  const getVolunteerData = async () => {
-    setloading(true);
-    const docSnap = await getDoc(VolunteerRef);
-    setloading(false);
-    if (docSnap.exists()) {
-      const ngo = docSnap.data();
-      setVolunteerDetails(ngo);
-    } else {
-      console.log("No such Volunteer!");
-    }
-  };
-
   function handleView(Camp) {
-    navigate(`/VolunteerCampaignDetail?${Camp}`);
+    navigate(`/GuestDetail?${Camp}`);
   }
 
-  function handleDetail() {
-    navigate(`/VolunteerProfile?${VolunteerDetails.uid}`);
-  }
-  function logout() {
-    localStorage.setItem("loggedIn", false);
-    localStorage.setItem("uid", null);
-    navigate("/");
-  }
-
-  return !loading ? (
+  return (
     <div>
       <div className="titlecontainer">
         <div className="pageHeading1">Volunteer Admin</div>
         <div class="triangle-down"></div>
 
         <div className="ngoAbout">
-          <div>Hi,{VolunteerDetails.name}</div>
-          <div>{VolunteerDetails.email}</div>
+          <div>Hi,</div>
         </div>
-        <button onClick={logout} type="button" class="btn btn-warning">
-          Logout
-        </button>
       </div>
       <div className="donationContainer">
         <div className="donationContainerTitle">
           <div>All Campaigns</div>
-
-          <button type="button" class="btn btn-warning" onClick={handleDetail}>
-            Your Profile
-          </button>
         </div>
         {CampaignsFetched.map((e) => {
           return (
@@ -119,12 +83,7 @@ function Home() {
         })}
       </div>
     </div>
-  ) : (
-    <div className="loaderContainer">
-      <Loading />
-      <h3>Loading....</h3>
-    </div>
   );
 }
 
-export default Home;
+export default Guest;

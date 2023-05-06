@@ -26,7 +26,7 @@ function LandingPage() {
       <div>
         <button
           onClick={() => {
-            nav("/Home");
+            nav("/Guest");
           }}
         >
           Guest
