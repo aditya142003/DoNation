@@ -48,6 +48,10 @@ function Home() {
     navigate(`/VolunteerCampaignDetail?${Camp}`);
   }
 
+  function handleDetail() {
+    navigate(`/VolunteerProfile?${VolunteerDetails.uid}`);
+  }
+
   return !loading ? (
     <div>
       <div className="titlecontainer">
@@ -62,6 +66,9 @@ function Home() {
       <div className="donationContainer">
         <div className="donationContainerTitle">
           <div>All Campaigns</div>
+          <button type="button" class="btn btn-warning" onClick={handleDetail}>
+            Your Profile
+          </button>
         </div>
         {CampaignsFetched.map((e) => {
           return (

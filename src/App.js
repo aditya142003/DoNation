@@ -14,6 +14,7 @@ import NgoCampaignDetail from "./components/NGO/NgoCampaignDetail";
 import VolunteerAuth from "./components/Volunteer/VolunteerAuth";
 import Home from "./components/Volunteer/VolunteerHome";
 import VolunteerCampaignDetail from "./components/Volunteer/VolunteerCampaignDetail";
+import VolunteerProfile from "./components/Volunteer/VolunteerProfile";
 
 const FireBase = require("./Firebase/config");
 
@@ -34,6 +35,7 @@ function App() {
 
          <Route path="/VolunteerAuth" element={<VolunteerAuth />}></Route>
         <Route path="/VolunteerCampaignDetail" element={<VolunteerCampaignDetail />}></Route>
+        <Route path="/VolunteerProfile" element={<VolunteerProfile />}></Route>
         <Route path="/Home" element={<Home />}></Route>
       </Routes>
     </div>
