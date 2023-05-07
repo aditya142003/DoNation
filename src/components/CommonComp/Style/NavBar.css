@@ -1,0 +1,58 @@
+.navBar {
+  height: 60px;
+  width: 100vw;
+  background-color: #f3c222;
+  display: grid;
+  grid-template-columns: 8fr 1fr;
+}
+.logo {
+  height: 55px;
+  width: 55px;
+}
+.left {
+  height: 55px;
+  display: flex;
+  font-size: 25px;
+  font-weight: 500;
+  align-items: center;
+}
+.right {
+  font-size: 25px;
+  font-weight: 500;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.left > span,
+img {
+  margin-left: 70px;
+}
+.right > span {
+  margin-left: 20px;
+}
+.left > span:hover,
+.left > img:hover {
+  cursor: pointer;
+}
+select {
+  background-color: #f3c222;
+  border: none;
+  border-radius: 15px;
+  width: 130px;
+  -webkit-appearance: none;
+  padding-left: 30px;
+}
+select:focus {
+  background-color: #f9edc6;
+  outline: none;
+}
+select:hover {
+  background-color: #f9edc6;
+  outline: none;
+  cursor: pointer;
+}
+option {
+  font-size: 18px;
+  justify-content: center;
+  margin: 10px;
+  outline: none;
+}
