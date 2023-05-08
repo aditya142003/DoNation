@@ -26,7 +26,7 @@ function NgoAdmin() {
     onSnapshot(CampaignRef, (camps) => {
       const items = [];
       camps.forEach((data) => {
-        if (data.data().NgoId == NgoUID) {
+        if (data.data().NgoId===NgoUID) {
           items.push(data.data());
         }
       });

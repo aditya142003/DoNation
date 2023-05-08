@@ -1,19 +1,30 @@
 import "./Style/NavBar.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./Images/doNationBlack.png";
 
 function NavBar() {
   const nav = useNavigate();
-  function handleLogin() {
-    if (document.getElementById("optionSel").value == "NGO") {
-      nav("/NgoAuth");
-    } else if (document.getElementById("optionSel").value == "Vol") {
-      nav("/VolunteerAuth");
-    } else if (document.getElementById("optionSel").value == "Guest") {
-      nav("/Guest");
-    }
-  }
+  useEffect(() => {
+    let options = document.querySelectorAll("#optionSel .option");
+    console.log(options)
+    options.forEach(element => {
+      console.log(element)
+      element.addEventListener("click", e => {
+        e.stopPropagation();
+        let value = e.target.dataset.value;
+        if (value === "ngo")
+          nav("/NgoAuth");
+        else if (value === "vol")
+          nav("/VolunteerAuth");
+        else
+          nav("/Guest");
+      })
+    });
+    document.addEventListener("click", e => {
+      document.getElementById("optionSel").classList.remove("show");
+    })
+  }, [])
   return (
     <div>
       <div className="navBar">
@@ -25,22 +36,27 @@ function NavBar() {
           <span>Contact</span>
         </div>
         <div className="right">
-          <span>
-            <select onChange={handleLogin} id="optionSel">
-              <option hidden className="loginOption">
-                Login
-              </option>
-              <option className="option" value="NGO">
-                NGO
-              </option>
-              <option className="option" value="Vol">
-                Volunteer
-              </option>
-              <option className="option" value="Guest">
-                Guest
-              </option>
-            </select>
-          </span>
+          <div className="loginOption" onClick={e => {
+            e.stopPropagation();
+            let options = document.getElementById("optionSel");
+            if (!options.classList.contains("show"))
+              options.classList.add("show");
+            else
+              options.classList.remove("show");
+          }}>
+            Login
+          </div>
+          <div id="optionSel">
+            <div className="option" data-value="ngo">
+              NGO
+            </div>
+            <div className="option" data-value="vol">
+              Volunteer
+            </div>
+            <div className="option" data-value="guest">
+              Guest
+            </div>
+          </div>
         </div>
       </div>
     </div>

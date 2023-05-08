@@ -48,14 +48,14 @@ function Post() {
     onSnapshot(DonationRef, (Donation) => {
       const items = [];
       Donation.forEach((data) => {
-        if (data.data().campaignId == campaignid) {
+        if (data.data().campaignId===campaignid) {
           items.push(data.data());
         }
         onSnapshot(VolunteerRef, (Volunteer) => {
           const items2 = [];
           Volunteer.forEach((e) => {
             items.map((ele) => {
-              if (ele.volunteerId == e.data().uid) {
+              if (ele.volunteerId===e.data().uid) {
                 items2.push(e.data());
               }
             });
@@ -71,7 +71,7 @@ function Post() {
   function rerender() {
     donationFetched.map((don) => {
       volunteerFetched.map((vol) => {
-        if (don.volunteerId == vol.uid) {
+        if (don.volunteerId===vol.uid) {
           donobject = {
             name: vol.name,
             uid: don.uid,
