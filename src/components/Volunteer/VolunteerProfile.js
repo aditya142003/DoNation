@@ -43,8 +43,8 @@ function VolunteerProfile() {
       let count = 0;
       Don.forEach((data) => {
         if (
-          data.data().volunteerId == volunteerId &&
-          data.data().confirmation == true
+          data.data().volunteerId===volunteerId &&
+          data.data().confirmation===true
         ) {
           // console.log(data.data().volunteerId )
           items.push(data.data());
@@ -64,7 +64,7 @@ function VolunteerProfile() {
   //     onSnapshot(DonationRef, (Donation) => {
   //       const items = [];
   //       Donation.forEach((data) => {
-  //         if (data.data().NgoId == NgoUID) {
+  //         if (data.data().NgoId===NgoUID) {
   //           items.push(data.data());
   //         }
 
@@ -72,7 +72,7 @@ function VolunteerProfile() {
   //           const items2 = [];
   //           Volunteer.forEach((e) => {
   //             items.map((ele) => {
-  //               if (ele.volunteerId == e.data().uid) {
+  //               if (ele.volunteerId===e.data().uid) {
   //                 items2.push(e.data());
   //               }
   //             });

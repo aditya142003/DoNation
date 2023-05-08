@@ -96,11 +96,11 @@ function NgoAuth() {
         })
         .catch((error) => {
           const errorCode = error.code;
-          if (errorCode == "auth/invalid-email") {
+          if (errorCode==="auth/invalid-email") {
             alert("Invalid email, please try again !");
-          } else if (errorCode == "auth/wrong-password") {
+          } else if (errorCode==="auth/wrong-password") {
             alert("Wrong password, please try again !");
-          } else if (errorCode == "auth/user-not-found") {
+          } else if (errorCode==="auth/user-not-found") {
             alert("No user registered with this email !");
           } else {
             alert("Something went wrong !");

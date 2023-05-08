@@ -43,7 +43,7 @@ function DashBoard() {
       const items = [];
       let totalD = 0;
       camps.forEach((data) => {
-        if (data.data().NgoId == NgoUID) {
+        if (data.data().NgoId===NgoUID) {
           items.push(data.data());
           totalD = totalD + data.data().received;
         }
@@ -60,7 +60,7 @@ function DashBoard() {
     onSnapshot(DonationRef, (Donation) => {
       const items = [];
       Donation.forEach((data) => {
-        if (data.data().NgoId == NgoUID) {
+        if (data.data().NgoId===NgoUID) {
           items.push(data.data());
         }
 
@@ -68,7 +68,7 @@ function DashBoard() {
           const items2 = [];
           Volunteer.forEach((e) => {
             items.map((ele) => {
-              if (ele.volunteerId == e.data().uid) {
+              if (ele.volunteerId===e.data().uid) {
                 items2.push(e.data());
               }
             });
