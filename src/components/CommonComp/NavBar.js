@@ -30,10 +30,9 @@ function NavBar() {
       <div className="navBar">
         <div className="left">
           <img src={logo} className="logo"></img>
-          <span>Intiative</span>
-          <span>Docs</span>
-          <span>Developer</span>
-          <span>Contact</span>
+          <span><a className="anchor" href="#initiative">Intiative</a></span>
+          <span><a className="anchor" href="#docs">Docs</a></span>
+          <span>Developer</span> 
         </div>
         <div className="right">
           <div className="loginOption" onClick={e => {
@@ -64,3 +63,8 @@ function NavBar() {
 }
 
 export default NavBar;
+
+// Education for children Pratham
+// Natural Disaster Goonj
+// Health of poor Ehsaas
+// Food for Poor People Feeding india

@@ -4,6 +4,8 @@
   background-color: #f3c222;
   display: grid;
   grid-template-columns: 8fr 1fr;
+  position: fixed;
+  z-index: 5;
 }
 .logo {
   height: 55px;
@@ -21,6 +23,7 @@
   font-weight: 500;
   margin-top: auto;
   margin-bottom: auto;
+  z-index: 2;
 }
 .left > span,
 img {
@@ -65,7 +68,7 @@ option {
 
 #optionSel {
   position: fixed;
-  border: .5px solid black;
+  border: 0.5px solid black;
   border-radius: 5px;
   background-color: #ffffff;
   top: 50px;
@@ -98,4 +101,12 @@ option {
 
 .show {
   display: block !important;
+}
+.anchor {
+  text-decoration: none;
+  color: black;
+}
+.anchor:hover {
+  text-decoration: none;
+  background-color: #f3c222;
 }
