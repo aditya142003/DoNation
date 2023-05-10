@@ -1,3 +1,19 @@
+@keyframes fadeit {
+  0% {
+    --mask-grad: 0%;
+  }
+  100% {
+    --mask-grad: 100%;
+  }
+}
+@keyframes fadeout {
+  0% {
+    --mask-grad: 100%;
+  }
+  100% {
+    --mask-grad: 0%;
+  }
+}
 .oddContainer {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
@@ -39,23 +55,13 @@
   initial-value: 0%;
   inherits: false;
 }
+@property --mask-out {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: false;
+}
 
-@keyframes fadeit {
-  0% {
-    --mask-grad: 0%;
-  }
-  100% {
-    --mask-grad: 100%;
-  }
-}
-@keyframes fadeout {
-  0% {
-    --mask-grad: 100%;
-  }
-  100% {
-    --mask-grad: 0%;
-  }
-}
+
 
 :has(.contentEdu:hover) .imageBaseEdu,
 :has(.contentFood:hover) .imageBaseFood,
@@ -73,17 +79,17 @@
   -webkit-mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent var(--mask-grad)
+    transparent calc(var(--mask-grad) + var(--mask-out)) 100%
   );
   -moz-mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent var(--mask-grad)
+    transparent 0% 100%
   );
   mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent var(--mask-grad)
+    transparent 0% 100%
   );
 }
 h1 {
