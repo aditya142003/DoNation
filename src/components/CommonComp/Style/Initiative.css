@@ -39,11 +39,6 @@
   initial-value: 0%;
   inherits: false;
 }
-@property --mask-out {
-  syntax: "<percentage>";
-  initial-value: 0%;
-  inherits: false;
-}
 
 @keyframes fadeit {
   0% {
@@ -78,17 +73,17 @@
   -webkit-mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent calc(var(--mask-grad) + var(--mask-out)) 100%
+    transparent var(--mask-grad)
   );
   -moz-mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent calc(var(--mask-grad) + var(--mask-out)) 100%
+    transparent var(--mask-grad)
   );
   mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent calc(var(--mask-grad) + var(--mask-out)) 100%
+    transparent var(--mask-grad)
   );
 }
 h1 {

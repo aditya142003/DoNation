@@ -10,7 +10,7 @@ function Initiative() {
       <div className="oddContainer">
         <div className="imageParent ">
           <img src={EduBefore} className="imageBaseEdu imageBase"></img>
-          <img src={EduAfter} className="imageBaseEdu imageBase"></img>
+          <img src={EduAfter} className="imageBaseEdu imageBase "></img>
         </div>
         <div
           className="contentEdu content"
