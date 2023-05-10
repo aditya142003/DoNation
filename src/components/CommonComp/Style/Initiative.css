@@ -83,12 +83,12 @@
   -moz-mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent 0% 100%
+    transparent calc(var(--mask-grad) + var(--mask-out)) 100%
   );
   mask-image: linear-gradient(
     270deg,
     black 0 var(--mask-grad),
-    transparent 0% 100%
+    transparent calc(var(--mask-grad) + var(--mask-out)) 100%
   );
 }
 h1 {
