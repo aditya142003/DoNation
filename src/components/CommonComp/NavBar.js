@@ -7,42 +7,59 @@ function NavBar() {
   const nav = useNavigate();
   useEffect(() => {
     let options = document.querySelectorAll("#optionSel .option");
-    console.log(options)
-    options.forEach(element => {
-      console.log(element)
-      element.addEventListener("click", e => {
+    console.log(options);
+    options.forEach((element) => {
+      console.log(element);
+      element.addEventListener("click", (e) => {
         e.stopPropagation();
         let value = e.target.dataset.value;
-        if (value === "ngo")
-          nav("/NgoAuth");
-        else if (value === "vol")
-          nav("/VolunteerAuth");
-        else
-          nav("/Guest");
-      })
+        if (value === "ngo") nav("/NgoAuth");
+        else if (value === "vol") nav("/VolunteerAuth");
+        else nav("/Guest");
+      });
     });
-    document.addEventListener("click", e => {
+    document.addEventListener("click", (e) => {
       document.getElementById("optionSel").classList.remove("show");
-    })
-  }, [])
+    });
+  }, []);
   return (
     <div>
       <div className="navBar">
         <div className="left">
           <img src={logo} className="logo"></img>
-          <span><a className="anchor" href="#initiative">Intiative</a></span>
-          <span><a className="anchor" href="#docs">Docs</a></span>
-          <span>Developer</span> 
+          <span>
+            <div
+              className="anchor"
+              onClick={() => {
+                nav("/");
+              }}
+            >
+              Intiative
+            </div>
+          </span>
+          <span>
+            <div
+              className="anchor"
+              onClick={() => {
+                nav("/Docs");
+              }}
+            >
+              Docs
+            </div>
+          </span>
+          <span>Developer</span>
         </div>
         <div className="right">
-          <div className="loginOption" onClick={e => {
-            e.stopPropagation();
-            let options = document.getElementById("optionSel");
-            if (!options.classList.contains("show"))
-              options.classList.add("show");
-            else
-              options.classList.remove("show");
-          }}>
+          <div
+            className="loginOption"
+            onClick={(e) => {
+              e.stopPropagation();
+              let options = document.getElementById("optionSel");
+              if (!options.classList.contains("show"))
+                options.classList.add("show");
+              else options.classList.remove("show");
+            }}
+          >
             Login
           </div>
           <div id="optionSel">
@@ -63,8 +80,3 @@ function NavBar() {
 }
 
 export default NavBar;
-
-// Education for children Pratham
-// Natural Disaster Goonj
-// Health of poor Ehsaas
-// Food for Poor People Feeding india

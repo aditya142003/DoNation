@@ -9,9 +9,16 @@ html {
   src: url("./utils/Product-Sans-Regular.ttf");
 } */
 
-body{
+body {
   margin: auto;
-  font-family:sans-serif;
+  font-family: sans-serif;
   scroll-behavior: smooth;
-  font-family: ProductSansRegular,"Segoe UI","Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";;
+  font-family: ProductSansRegular, "Segoe UI", "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+}
+.headingHighlighter {
+  background: linear-gradient(to bottom, transparent 85%, #fce041 10%);
+  width: fit-content;
+  margin: auto;
 }
