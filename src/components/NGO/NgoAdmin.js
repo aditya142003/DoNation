@@ -63,8 +63,8 @@ function NgoAdmin() {
         <div class="triangle-down"></div>
 
         <div className="ngoAbout">
-          <div>Hi,{NgoDetails.name}</div>
-          <div>{NgoDetails.email}</div>
+          <b>{NgoDetails.name}</b>
+          <b>{NgoDetails.email}</b>
         </div>
       </div>
       <div className="donationContainer">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDoc, doc, collection, onSnapshot } from "firebase/firestore";
-import "./Style/DashBoard.css";
+import "./Style/NgoDashBoard.css";
 import Loading from "../CommonComp/Loading";
 import db from "../../Firebase/config";
 
@@ -43,7 +43,7 @@ function DashBoard() {
       const items = [];
       let totalD = 0;
       camps.forEach((data) => {
-        if (data.data().NgoId===NgoUID) {
+        if (data.data().NgoId === NgoUID) {
           items.push(data.data());
           totalD = totalD + data.data().received;
         }
@@ -60,7 +60,7 @@ function DashBoard() {
     onSnapshot(DonationRef, (Donation) => {
       const items = [];
       Donation.forEach((data) => {
-        if (data.data().NgoId===NgoUID) {
+        if (data.data().NgoId === NgoUID) {
           items.push(data.data());
         }
 
@@ -68,7 +68,7 @@ function DashBoard() {
           const items2 = [];
           Volunteer.forEach((e) => {
             items.map((ele) => {
-              if (ele.volunteerId===e.data().uid) {
+              if (ele.volunteerId === e.data().uid) {
                 items2.push(e.data());
               }
             });
@@ -102,8 +102,9 @@ function DashBoard() {
 
         <div className="headerRightHolder">
           <div className="ngoAbout">
-            <div>Hi,{NgoDetails.name}</div>
-            <div>{NgoDetails.email}</div>
+            <div style={{ fontSize: "20px" }}>
+              <b>{NgoDetails.name}</b>
+            </div>
           </div>
           <button onClick={logout} type="button" class="btn btn-warning">
             Logout
@@ -132,35 +133,41 @@ function DashBoard() {
             <h3 className="heading">Recent Activity</h3>
           </div>
           {donationFetched.map((donations) => {
-            return (
-              <div>
-                <div>{donations.campaigntitle}</div>
-                <div>{donations.volname}</div>
-                <div>{donations.amount}</div>
-                <div>
-                  {!donations.confirmation ? (
-                    <button
-                      onClick={(event) =>
-                        handleDetail(donations.campaignId, event)
-                      }
-                    >
-                      Detail
-                    </button>
-                  ) : (
-                    <div>
-                      <button
-                        onClick={(event) =>
-                          handleDetail(donations.campaignId, event)
-                        }
-                      >
-                        Detail
-                      </button>
-                      <div>Confirmed</div>
+            if (donations.confirmation) {
+              return (
+                <div className="DashCurrentCampaign">
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+                  >
+                    <b style={{ fontSize: "20px" }}>{donations.volname}</b>
+                    <div style={{ fontSize: "17px" }}>
+                      Donated: {donations.amount}
                     </div>
-                  )}
+                  </div>
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+                  >
+                    <div class="text-muted textoverflow">
+                      {donations.campaigntitle}
+                    </div>
+                    <div>
+                      <div>
+                        <button
+                          type="button"
+                          class="btn btn-outline-dark"
+                          onClick={(event) =>
+                            handleDetail(donations.campaignId, event)
+                          }
+                        >
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <hr></hr>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
         </div>
       </div>

@@ -32,11 +32,11 @@ function Guest() {
   return (
     <div>
       <div className="titlecontainer">
-        <div className="pageHeading1">Volunteer Admin</div>
+        <div className="pageHeading1">Campaigns</div>
         <div class="triangle-down"></div>
 
         <div className="ngoAbout">
-          <div>Hi,</div>
+          <b>Guest</b>
         </div>
       </div>
       <div className="donationContainer">

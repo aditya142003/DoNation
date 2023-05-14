@@ -43,8 +43,8 @@ function VolunteerProfile() {
       let count = 0;
       Don.forEach((data) => {
         if (
-          data.data().volunteerId===volunteerId &&
-          data.data().confirmation===true
+          data.data().volunteerId === volunteerId &&
+          data.data().confirmation === true
         ) {
           // console.log(data.data().volunteerId )
           items.push(data.data());
@@ -58,39 +58,9 @@ function VolunteerProfile() {
     });
   };
 
-  //   const DonationRef = collection(db, "Donation");
-  //   const VolunteerRef = collection(db, "Volunteer");
-  //   const getDonation = async () => {
-  //     onSnapshot(DonationRef, (Donation) => {
-  //       const items = [];
-  //       Donation.forEach((data) => {
-  //         if (data.data().NgoId===NgoUID) {
-  //           items.push(data.data());
-  //         }
-
-  //         onSnapshot(VolunteerRef, (Volunteer) => {
-  //           const items2 = [];
-  //           Volunteer.forEach((e) => {
-  //             items.map((ele) => {
-  //               if (ele.volunteerId===e.data().uid) {
-  //                 items2.push(e.data());
-  //               }
-  //             });
-  //           });
-  //           setvolunteerFetched(items2);
-  //         });
-  //         setdonationFetched(items);
-  //       });
-  //     });
-  //   };
-
-  //   function Taphandle() {
-  //     navigate("/NgoAdmin");
-  //   }
-
-    function handleDetail(Camp) {
-      navigate(`/NgoCampaignDetail?${Camp}`);
-    }
+  function handleDetail(Camp) {
+    navigate(`/VolunteerCampaignDetail?${Camp}`);
+  }
 
   function logout() {
     localStorage.setItem("loggedIn", false);
@@ -106,8 +76,8 @@ function VolunteerProfile() {
 
         <div className="headerRightHolder">
           <div className="ngoAbout">
-            <div>Hi,{volunteerDetail.name}</div>
-            <div>{volunteerDetail.email}</div>
+            <b>{volunteerDetail.name}</b>
+            <b>{volunteerDetail.email}</b>
           </div>
           <button onClick={logout} type="button" class="btn btn-warning">
             Logout
@@ -129,23 +99,43 @@ function VolunteerProfile() {
           <div className="recentContainerTitle">
             <h3 className="heading">Recent Activity</h3>
           </div>
+
           {DonationFetched.map((donations) => {
-            return (
-              <div>
-                <div>{donations.campaigntitle}</div>
-                <div>{donations.volname}</div>
-                <div>{donations.amount}</div>
-                <div>
-                  <button
-                    onClick={(event) =>
-                      handleDetail(donations.campaignId, event)
-                    }
+            if (donations.confirmation) {
+              return (
+                <div className="DashCurrentCampaign">
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
                   >
-                    Detail
-                  </button>
+                    <b style={{ fontSize: "20px" }}>{donations.volname}</b>
+                    <div style={{ fontSize: "17px" }}>
+                      Donated: {donations.amount}
+                    </div>
+                  </div>
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+                  >
+                    <div class="text-muted textoverflow">
+                      {donations.campaigntitle}
+                    </div>
+                    <div>
+                      <div>
+                        <button
+                          type="button"
+                          class="btn btn-outline-dark"
+                          onClick={(event) =>
+                            handleDetail(donations.campaignId, event)
+                          }
+                        >
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <hr></hr>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
         </div>
       </div>

@@ -107,7 +107,7 @@ function Initiative() {
               .classList.remove("imageBaseHover");
           }}
         >
-          <h3>Your Support towards health of poors</h3>
+          <h3>Your Support towards health of people</h3>
           <p>
             Their major focus is to address the healthcare and nutritional needs
             of the affected population. They also work to improve maternal,
@@ -138,7 +138,7 @@ function Initiative() {
               .classList.remove("imageBaseHover");
           }}
         >
-          <h3>Your Support towards feeding</h3>
+          <h3>Your Support towards feeding people</h3>
           <p>
             Food NGOs work to improve the nutritional quality of food available
             to vulnerable populations, such as young children or pregnant women.

@@ -127,6 +127,20 @@ function NgoAuth() {
       setpositionshift(0);
     }
   };
+  function saveLoc(e) {
+    setNgoReg({ ...NgoReg, lat: e.coords.latitude, long: e.coords.longitude });
+  }
+  console.log(NgoReg);
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition((e) => {
+        saveLoc(e);
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
 
   return (
     <div className="parentContainer">
@@ -197,11 +211,11 @@ function NgoAuth() {
                   ></input>
                 </div>
                 <div>
-                  <h4>Address</h4>
+                  <h4>Email</h4>
                   <input
-                    type="text"
+                    type="email"
                     onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, address: e.target.value })
+                      setNgoReg({ ...NgoReg, email: e.target.value })
                     }
                   ></input>
                 </div>
@@ -210,12 +224,12 @@ function NgoAuth() {
             <div className="formFields">
               <div className="doubleinput">
                 <div>
-                  <h4>Email</h4>
+                  <h4>Image</h4>
                   <input
-                    type="email"
+                    type="text"
                     spellCheck="false"
                     onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, email: e.target.value })
+                      setNgoReg({ ...NgoReg, image: e.target.value })
                     }
                   ></input>
                 </div>
@@ -231,41 +245,9 @@ function NgoAuth() {
                 </div>
               </div>
             </div>
+
             <div className="formFields">
               <div className="doubleinput">
-                <div>
-                  <h4>Latitude</h4>
-                  <input
-                    type="number"
-                    step="any"
-                    onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, lat: e.target.value })
-                    }
-                  ></input>
-                </div>
-                <div>
-                  <h4>Longitude</h4>
-                  <input
-                    type="number"
-                    step="any"
-                    onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, long: e.target.value })
-                    }
-                  ></input>
-                </div>
-              </div>
-            </div>
-            <div className="formFields">
-              <div className="doubleinput">
-                <div>
-                  <h4>Image</h4>
-                  <input
-                    type="text"
-                    onInputCapture={(e) =>
-                      setNgoReg({ ...NgoReg, image: e.target.value })
-                    }
-                  ></input>
-                </div>
                 <div>
                   <h4>Tag</h4>
                   <input
@@ -275,18 +257,40 @@ function NgoAuth() {
                     }
                   ></input>
                 </div>
+                <div>
+                  <h4>Password</h4>
+                  <input
+                    type="password"
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, password: e.target.value })
+                    }
+                  ></input>
+                </div>
               </div>
             </div>
             <div className="formFields">
-              <h4>Password</h4>
-              <input
-                type="password"
-                onInputCapture={(e) =>
-                  setNgoReg({ ...NgoReg, password: e.target.value })
-                }
-              ></input>
+              <div className="doubleinput">
+                <div>
+                  <h4>Address</h4>
+                  <input
+                    className="address"
+                    type="text"
+                    onInputCapture={(e) =>
+                      setNgoReg({ ...NgoReg, address: e.target.value })
+                    }
+                  ></input>
+                </div>
+                <div>
+                  <button
+                    onClick={getLocation}
+                    type="button"
+                    class="btn btn-primary location"
+                  >
+                    Use My Location
+                  </button>
+                </div>
+              </div>
             </div>
-
             <div className="formFields">
               <button
                 type="button"

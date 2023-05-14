@@ -48,14 +48,14 @@ function Post() {
     onSnapshot(DonationRef, (Donation) => {
       const items = [];
       Donation.forEach((data) => {
-        if (data.data().campaignId===campaignid) {
+        if (data.data().campaignId === campaignid) {
           items.push(data.data());
         }
         onSnapshot(VolunteerRef, (Volunteer) => {
           const items2 = [];
           Volunteer.forEach((e) => {
             items.map((ele) => {
-              if (ele.volunteerId===e.data().uid) {
+              if (ele.volunteerId === e.data().uid) {
                 items2.push(e.data());
               }
             });
@@ -71,7 +71,7 @@ function Post() {
   function rerender() {
     donationFetched.map((don) => {
       volunteerFetched.map((vol) => {
-        if (don.volunteerId===vol.uid) {
+        if (don.volunteerId === vol.uid) {
           donobject = {
             name: vol.name,
             uid: don.uid,
@@ -132,21 +132,43 @@ function Post() {
 
           <div className="detailHolder">
             <h5>Volunteers -</h5>
-            {donatorDetails.map((e) => (
-              <div>
-                <div>{e.name}</div>
-                <div>{e.amount}</div>
-                {e.confirmation ? (
-                  <></>
-                ) : (
-                  <button
-                    onClick={(event) => handleConfirm(e.uid, e.amount, event)}
+            {donatorDetails.map((donations) => {
+              return (
+                <div className="DashCurrentCampaign">
+                  <b style={{ fontSize: "20px" }}>{donations.name}</b>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                    }}
                   >
-                    Confirm
-                  </button>
-                )}
-              </div>
-            ))}
+                    <div style={{ fontSize: "17px" }}>
+                      Donated: {donations.amount}
+                    </div>
+                    {donations.confirmation ? (
+                      <div>Confirmed</div>
+                    ) : (
+                      <div>
+                        <button
+                          type="button"
+                          class="btn btn-outline-dark confirm"
+                          onClick={(event) =>
+                            handleConfirm(
+                              donations.uid,
+                              donations.amount,
+                              event
+                            )
+                          }
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <hr></hr>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

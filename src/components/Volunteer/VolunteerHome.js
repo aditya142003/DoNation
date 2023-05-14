@@ -13,9 +13,11 @@ function Home() {
   const [VolunteerDetails, setVolunteerDetails] = useState({});
   const [loading, setloading] = useState(false);
 
+
   useEffect(() => {
     getCampaigns();
     getVolunteerData();
+ 
   }, []);
 
   const CampaignRef = collection(db, "Campaign");
@@ -51,33 +53,28 @@ function Home() {
   function handleDetail() {
     navigate(`/VolunteerProfile?${VolunteerDetails.uid}`);
   }
-  function logout() {
-    localStorage.setItem("loggedIn", false);
-    localStorage.setItem("uid", null);
-    navigate("/");
-  }
+
+
 
   return !loading ? (
     <div>
       <div className="titlecontainer">
-        <div className="pageHeading1">Volunteer Admin</div>
+        <div className="pageHeading1">Campaigns</div>
         <div class="triangle-down"></div>
-
-        <div className="ngoAbout">
-          <div>Hi,{VolunteerDetails.name}</div>
-          <div>{VolunteerDetails.email}</div>
+        <div className="headerRightHolder">
+          <div className="ngoAbout">
+            <div style={{ fontSize: "20px" }}>
+              <b>{VolunteerDetails.name}</b>
+            </div>
+          </div>
+          <button type="button" class="btn btn-warning" onClick={handleDetail}>
+            Your Profile
+          </button>
         </div>
-        <button onClick={logout} type="button" class="btn btn-warning">
-          Logout
-        </button>
       </div>
       <div className="donationContainer">
         <div className="donationContainerTitle">
           <div>All Campaigns</div>
-
-          <button type="button" class="btn btn-warning" onClick={handleDetail}>
-            Your Profile
-          </button>
         </div>
         {CampaignsFetched.map((e) => {
           return (

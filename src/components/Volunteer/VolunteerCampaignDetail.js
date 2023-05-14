@@ -1,7 +1,14 @@
 // import "./Style/CampaignDetail.css";
 
 import React, { useEffect, useState } from "react";
-import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  getDoc,
+  doc,
+  setDoc,
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
 import db from "../../Firebase/config";
 import { uid } from "uid";
 
@@ -9,6 +16,7 @@ function Post() {
   const [campaigndeatil, setcampaigndeatil] = useState(null);
   const [VolunteerDetails, setVolunteerDetails] = useState(null);
   const [amount, setamount] = useState();
+  const [currDonation, setcurrDonation] = useState(0);
 
   const ngoUID = localStorage.getItem("uid");
   const firestore = getFirestore();
@@ -17,6 +25,7 @@ function Post() {
   useEffect(() => {
     getCampaignData();
     getVolunteerData();
+    getDonation();
   }, []);
 
   const campaignid = window.location.search.split("?")[1];
@@ -64,6 +73,22 @@ function Post() {
     });
   }
 
+  const DonationRef = collection(db, "Donation");
+  const getDonation = async () => {
+    onSnapshot(DonationRef, (Donation) => {
+      Donation.forEach((data) => {
+        if (
+          data.data().campaignId === campaignid &&
+          data.data().volunteerId === VolunteerID
+        ) {
+          console.log(data.data().amount);
+          setcurrDonation(data.data().amount);
+        }
+      });
+    });
+  };
+  console.log(currDonation);
+
   return (
     campaigndeatil !== null && (
       <div>
@@ -92,15 +117,24 @@ function Post() {
               {campaigndeatil.received}/{campaigndeatil.quantity} Items
             </small>
           </div>
-
-          <div>
-            <div>Enter Amount</div>
-            <input
-              type="number"
-              onInputCapture={(e) => setamount(e.target.value)}
-            ></input>
-            <button onClick={handleDonation}>Donate</button>
-          </div>
+          {currDonation ? (
+            <h5>Your Donation: {currDonation}</h5>
+          ) : (
+            <div>
+              <div>Enter Amount</div>
+              <input
+                type="number"
+                onInputCapture={(e) => setamount(e.target.value)}
+              ></input>
+              <button
+                type="button"
+                class="btn btn-warning"
+                onClick={handleDonation}
+              >
+                Donate
+              </button>
+            </div>
+          )}
         </div>
       </div>
     )
