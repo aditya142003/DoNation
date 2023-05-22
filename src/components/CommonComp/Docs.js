@@ -16,7 +16,7 @@ function Docs() {
           <div className="version">Version 2.0</div>
         </div>
         <div className="Docscontent">
-          <div id="NGODocs">NGO</div>
+          <div id="NGODocs"></div>
         </div>
       </div>
     </div>

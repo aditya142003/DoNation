@@ -47,7 +47,14 @@ function NavBar() {
               Docs
             </div>
           </span>
-          <span>Developer</span>
+          <span
+            className="anchor"
+            onClick={() => {
+              nav("/Developer");
+            }}
+          >
+            Developer
+          </span>
         </div>
         <div className="right">
           <div

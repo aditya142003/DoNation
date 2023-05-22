@@ -28,7 +28,7 @@ function NgoAuth() {
     address: "",
   });
   console.log(NgoReg);
-  const [NgoLogin, setNgoLogin] = useState({ email: "", password: "" });
+  const [NgoLogin, setNgoLogin] = useState({ email: "adityabhatnagarvideo@gmail.com", password: "Code123" });
 
   const handleReg = () => {
     if (
@@ -134,6 +134,7 @@ function NgoAuth() {
               <h4>Email</h4>
               <input
                 type="email"
+                value={NgoLogin.email}
                 spellCheck="false"
                 onInputCapture={(e) =>
                   setNgoLogin({ ...NgoLogin, email: e.target.value })
@@ -144,6 +145,7 @@ function NgoAuth() {
               <h4>Password</h4>
               <input
                 type="password"
+                value={NgoLogin.password}
                 onInputCapture={(e) =>
                   setNgoLogin({ ...NgoLogin, password: e.target.value })
                 }
@@ -178,7 +180,7 @@ function NgoAuth() {
             <div className="formFields">
               <div className="doubleinput">
                 <div>
-                  <h4>NGO Name</h4>
+                  <h4>Name</h4>
                   <input
                     type="text"
                     onInputCapture={(e) =>

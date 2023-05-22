@@ -1,5 +1,5 @@
 import "./Style/Initiative.css";
-import React from "react";
+import React, { useEffect } from "react";
 import EduImage from "./Images/Education.jpg";
 import DisImage from "./Images/Disaster.jpg";
 import HealthImage from "./Images/Health.jpg";
@@ -7,6 +7,12 @@ import FoodImage from "./Images/Food.jpg";
 import NavBar from "./NavBar";
 
 function Initiative() {
+  useEffect(() => {
+    setTimeout(() => {
+      alert("Please Login as NGO, Volunteer or Guest");
+    }, 2000);
+  });
+
   return (
     <div>
       <NavBar />
